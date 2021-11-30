@@ -132,6 +132,7 @@ dmypy.json
 # Test data dir
 data/
 synthetic/
+tutorial/
 
 # Archieve dir
 archive*/
