@@ -19,8 +19,8 @@ def save_by_chunks(
     indexes,
     df_indexes, df_template, df_columns, 
     path_to_file,
-    chunk_length=CHUNK_LENGTH,
     index_transform=None
+    chunk_length=CHUNK_LENGTH,
 ):
     df_inds = []
     rows = len(indexes)
@@ -39,6 +39,7 @@ def save_by_chunks(
         source_indexes = []
         target_indexes = []
         for ind in dump_indexes:
+            ind = index_transform[ind]
             s, t = core.extern.paired_index(ind, len(df_indexes))
             source_indexes.append(df_indexes[s])
             target_indexes.append(df_indexes[t])
@@ -57,4 +58,5 @@ def save_by_chunks(
             mode=MODE,
             header=HEADER
         )
+        
         MODE, HEADER = 'a', False

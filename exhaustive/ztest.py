@@ -111,24 +111,41 @@ boot_pvalue = boot_pvalue[indexes]
 adjusted_pvalue = adjusted_pvalue[indexes]
 df_indexes = data_df.index.to_numpy()
 
+# Store output fast in numpy format
 np.save(OUTPUT_DIR_PATH.rstrip("/") + \
-    "/{}_ztest_pipeline_stat.npy".format(CORRELATION),
+    "/{}_ztest_ref_corr.npy".format(CORRELATION),
+    ref_corrs
+)
+np.save(OUTPUT_DIR_PATH.rstrip("/") + \
+    "/{}_ztest_ref_pvalue.npy".format(CORRELATION),
+    ref_pvalues
+)
+np.save(OUTPUT_DIR_PATH.rstrip("/") + \
+    "/{}_ztest_exp_corr.npy".format(CORRELATION),
+    exp_corrs
+)
+np.save(OUTPUT_DIR_PATH.rstrip("/") + \
+    "/{}_ztest_exp_pvalue.npy".format(CORRELATION),
+    exp_pvalues
+)
+np.save(OUTPUT_DIR_PATH.rstrip("/") + \
+    "/{}_ztest_stat.npy".format(CORRELATION),
     stat
 )
 np.save(OUTPUT_DIR_PATH.rstrip("/") + \
-    "/{}_ztest_pipeline_pvalue.npy".format(CORRELATION),
+    "/{}_ztest_pvalue.npy".format(CORRELATION),
     pvalue
 )
 np.save(OUTPUT_DIR_PATH.rstrip("/") + \
-    "/{}_ztest_pipeline_bootpv.npy".format(CORRELATION),
+    "/{}_ztest_bootpv.npy".format(CORRELATION),
     boot_pvalue
 )
 np.save(OUTPUT_DIR_PATH.rstrip("/") + \
-    "/{}_ztest_pipeline_fdr.npy".format(CORRELATION),
+    "/{}_ztest_fdr.npy".format(CORRELATION),
     adjusted_pvalue
 )
 
-# Test mode
+# Remove low fdr interactions 
 # indexes = np.where(adjusted_pvalue < FDR_THRESHOLD)[0]
 
 ref_corrs = ref_corrs[indexes]
@@ -142,7 +159,6 @@ pvalue = pvalue[indexes]
 boot_pvalue = boot_pvalue[indexes]
 adjusted_pvalue = adjusted_pvalue[indexes]
 df_indexes = data_df.index.to_numpy()
-
 
 # Save mode
 print("Creating FDR/pvalue array")
@@ -167,9 +183,11 @@ df_columns = [
     pvalue, boot_pvalue, adjusted_pvalue
 ]
 
-path_to_file = OUTPUT_DIR_PATH.rstrip("/") + "/{}_ztest_pipeline.csv".format(CORRELATION)
+path_to_file = OUTPUT_DIR_PATH.rstrip("/") + "/{}_ztest.csv".format(CORRELATION)
 core.utils.save_by_chunks(
     sorted_indexes, 
     df_indexes, df_template, df_columns,
-    path_to_file
+    path_to_file,
+    index_transform=None
+    # index_transform=index
 )
