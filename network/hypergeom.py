@@ -57,11 +57,22 @@ data_df = pd.read_csv(DATA_PATH, sep=",", index_col=0)
 report_df = pd.read_csv(
     OUTPUT_DIR_PATH.rstrip("/") + 
     # "/{}_report.csv".format(CORRELATION),
-    "/{}_ztest_pipeline.csv".format(CORRELATION),
+    "/{}_ztest.csv".format(CORRELATION),
     sep=","
 )
-report_df = report_df[report_df["FDR"] < FDR_THRESHOLD]
-# report_df = report_df[report_df["Pvalue"] < FDR_THRESHOLD]
+if ALTERNATIVE == "less":
+    report_df = report_df[
+        (report_df["FDR"] < FDR_THRESHOLD) &
+        (report_df["Statistic"] < 0)
+    ]
+elif ALTERNATIVE == "greater":
+    report_df = report_df[
+        (report_df["FDR"] < FDR_THRESHOLD) &
+        (report_df["Statistic"] > 0)
+    ]
+else:
+    # ALTERNATIVE == "two-sided"
+    report_df = report_df[report_df["FDR"] < FDR_THRESHOLD]
 
 # Report indexing
 if ORIENTED:
@@ -119,7 +130,7 @@ output_df = output_df.drop(columns=["NegProportion"])
 
 output_df.to_csv(
     OUTPUT_DIR_PATH.rstrip("/") +
-    "/{}_hyper.csv".format(CORRELATION),
+    "/{}_{}_hypergeom.csv".format(CORRELATION, ALTERNATIVE),
     sep=",",
     index=None
 )

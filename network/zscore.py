@@ -81,7 +81,7 @@ experimental_indexes = description_df.loc[
     "Sample"
 ].to_list()
 
-print("Pipeline")
+print("Bootstrap phase")
 start = time.time()
 
 sources, scores, pvalues = \
@@ -115,7 +115,7 @@ output_df = output_df.sort_values(["FDR", "Pvalue"])
 
 output_df.to_csv(
     OUTPUT_DIR_PATH.rstrip("/") + \
-    "/{}_{}_{}_pipeline.csv".format(CORRELATION, SCORE, ALTERNATIVE),
+    "/{}_{}_{}_zscore.csv".format(CORRELATION, SCORE, ALTERNATIVE),
     sep=",",
     index=None
 )

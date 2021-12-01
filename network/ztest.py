@@ -35,7 +35,8 @@ EXPERIMENTAL_GROUP = config["experimental_group"]
 
 CORRELATION = config["correlation"]
 ALTERNATIVE = config["alternative"]
-REPEATS_NUMBER = config["repeats_number"]
+# REPEATS_NUMBER = config["repeats_number"]
+REPEATS_NUMBER = 0
 PROCESS_NUMBER = config["process_number"]
 
 FDR_THRESHOLD = config["fdr_treshold"]
@@ -79,7 +80,7 @@ experimental_indexes = description_df.loc[
     "Sample"
 ].to_list()
 
-print("Pipeline")
+print("Bootstrap phase")
 start = time.time()
 ref_corrs, ref_pvalues, \
 exp_corrs, exp_pvalues, \
@@ -121,7 +122,7 @@ output_df = output_df.sort_values(["FDR", "Pvalue"])
 
 output_df.to_csv(
     OUTPUT_DIR_PATH.rstrip("/") + \
-    "/{}_ztest_pipeline.csv".format(CORRELATION),
+    "/{}_ztest.csv".format(CORRELATION),
     sep=",",
     index=None
 )
