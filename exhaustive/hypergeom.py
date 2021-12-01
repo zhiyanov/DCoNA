@@ -9,6 +9,7 @@ import json
 
 # Import python package
 import core.extern
+import core.utils
 
 # Arg parser
 import argparse
@@ -25,17 +26,19 @@ config = json.load(open(CONFIG_PATH, "r"))
 
 DATA_PATH = config["data_path"]
 DESCRIPTION_PATH = config["description_path"]
-INTERACTION_PATH = config["interaction_path"]
+# INTERACTION_PATH = config["interaction_path"]
 OUTPUT_DIR_PATH = config["output_dir_path"]
 
 REFERENCE_GROUP = config["reference_group"]
-EXPERIMENTAL_GROUP = config["experimnetal_group"]
+EXPERIMENTAL_GROUP = config["experimental_group"]
 
 CORRELATION = config["correlation"]
 ALTERNATIVE = config["alternative"]
 PROCESS_NUMBER = config["process_number"]
 
 FDR_THRESHOLD = config["fdr_treshold"]
+
+core.utils.check_directory_existence(OUTPUT_DIR_PATH)
 
 def get_occurrence(array):
     occurrence = {}
@@ -47,20 +50,32 @@ def get_occurrence(array):
     
     return occurrence
 
-
 # Main part
 report_stat = np.load(OUTPUT_DIR_PATH.rstrip("/") + \
-    "/{}_report_stat.npy".format(CORRELATION)
+    "/{}_ztest_stat.npy".format(CORRELATION)
 )
 report_pvalue = np.load(OUTPUT_DIR_PATH.rstrip("/") + \
-    "/{}_report_pvalue.npy".format(CORRELATION)
+    "/{}_ztest_pvalue.npy".format(CORRELATION)
 )
 report_fdr = np.load(OUTPUT_DIR_PATH.rstrip("/") + \
-    "/{}_report_fdr.npy".format(CORRELATION)
+    "/{}_ztest_fdr.npy".format(CORRELATION)
 )
 molecules = pd.read_csv(DATA_PATH, sep=",", index_col=0).index.to_numpy()
 
-indexes = np.where(report_fdr < FDR_THRESHOLD)[0]
+if ALTERNATIVE == "less":
+    indexes = np.where(
+        (report_fdr < FDR_THRESHOLD) & 
+        (report_stat < 0)
+    )[0]
+elif ALTERNATIVE == "greater":
+    indexes = np.where(
+        (report_fdr < FDR_THRESHOLD) & 
+        (report_stat > 0)
+    )[0]
+else:
+    # ALTERNATIVE == "two-sided"
+    indexes = np.where(report_fdr < FDR_THRESHOLD)[0]
+
 report_stat = report_stat[indexes]
 report_pvalue = report_pvalue[indexes]
 report_fdr = report_fdr[indexes]
@@ -111,7 +126,7 @@ output_df = output_df.drop(columns=["NegProportion"])
 
 output_df.to_csv(
     OUTPUT_DIR_PATH.rstrip("/") +
-    "/{}_hyper.csv".format(CORRELATION),
+    "/{}_{}_hypergeom.csv".format(CORRELATION, ALTERNATIVE),
     sep=",",
     index=None
 )

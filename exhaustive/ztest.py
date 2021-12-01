@@ -71,7 +71,7 @@ experimental_indexes = description_df.loc[
 # Test mode
 # data_df = data_df.iloc[:1000]
 
-print("Pipeline")
+print("Bootstrap phase")
 start = time.time()
 
 ref_corrs, ref_pvalues, \
@@ -146,7 +146,7 @@ np.save(OUTPUT_DIR_PATH.rstrip("/") + \
 )
 
 # Remove low fdr interactions 
-# indexes = np.where(adjusted_pvalue < FDR_THRESHOLD)[0]
+indexes = np.where(adjusted_pvalue < FDR_THRESHOLD)[0]
 
 ref_corrs = ref_corrs[indexes]
 ref_pvalues = ref_pvalues[indexes]
@@ -188,6 +188,6 @@ core.utils.save_by_chunks(
     sorted_indexes, 
     df_indexes, df_template, df_columns,
     path_to_file,
-    index_transform=None
-    # index_transform=index
+    # index_transform=None
+    index_transform=indexes
 )

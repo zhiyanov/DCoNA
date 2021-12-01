@@ -29,7 +29,7 @@ config = json.load(open(CONFIG_PATH, "r"))
 DATA_PATH = config["data_path"]
 DESCRIPTION_PATH = config["description_path"]
 # INTERACTION_PATH = config["interaction_path"]
-# OUTPUT_DIR_PATH = config["output_dir_path"]
+OUTPUT_DIR_PATH = config["output_dir_path"]
 
 REFERENCE_GROUP = config["reference_group"]
 EXPERIMENTAL_GROUP = config["experimental_group"]
@@ -39,10 +39,12 @@ ALTERNATIVE = config["alternative"]
 SCORE = config["score"]
 
 # REPEATS_NUMBER = config["repeats_number"]
-REPEATS_NUMBER = 1
+REPEATS_NUMBER = 10
 PROCESS_NUMBER = config["process_number"]
 
 FDR_THRESHOLD = config["fdr_treshold"]
+
+core.utils.check_directory_existence(OUTPUT_DIR_PATH)
 
 # Main part
 data_df = pd.read_csv(DATA_PATH, sep=",", index_col=0)
@@ -72,7 +74,7 @@ experimental_indexes = description_df.loc[
 # Test mode
 # data_df = data_df.iloc[:100]
 
-print("Pipeline")
+print("Bootstrap phase")
 start = time.time()
 
 sources, scores, pvalues = \
@@ -125,8 +127,6 @@ for i in tqdm.tqdm(range(100, len(data_df), 100)):
 
     computation_time.append(time_complexity)
 
-print(recommended_repeats_number)
-
 import matplotlib.pyplot as plt
 
 computation_time = np.array(computation_time)
@@ -135,12 +135,11 @@ plt.plot(
     list(range(100, len(data_df), 100))[:len(computation_time)],
     computation_time
 )
-# plt.yscale("log")
-# plt.xscale("log")
 
 plt.ylabel("Time (hours)")
 plt.xlabel("Number of genes")
-plt.savefig("warmup.png")
 
-
-
+plt.savefig(
+    OUTPUT_DIR_PATH.rstrip("/") + \
+    "/{}_warmup.png".format(CORRELATION),
+)

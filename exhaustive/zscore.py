@@ -38,7 +38,8 @@ CORRELATION = config["correlation"]
 ALTERNATIVE = config["alternative"]
 SCORE = config["score"]
 
-REPEATS_NUMBER = config["repeats_number"]
+# REPEATS_NUMBER = config["repeats_number"]
+REPEATS_NUMBER = 1
 PROCESS_NUMBER = config["process_number"]
 
 FDR_THRESHOLD = config["fdr_treshold"]
@@ -73,7 +74,7 @@ experimental_indexes = description_df.loc[
 # Test mode
 # data_df = data_df.iloc[:100]
 
-print("Pipeline")
+print("Bootstrap phase")
 start = time.time()
 
 sources, scores, pvalues = \
@@ -107,7 +108,7 @@ output_df = output_df.sort_values(["FDR", "Pvalue"])
 
 output_df.to_csv(
     OUTPUT_DIR_PATH.rstrip("/") + \
-    "/{}_{}_{}_pipeline.csv".format(CORRELATION, SCORE, ALTERNATIVE),
+    "/{}_{}_{}_zscore.csv".format(CORRELATION, SCORE, ALTERNATIVE),
     sep=",",
     index=None
 )

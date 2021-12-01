@@ -19,8 +19,8 @@ def save_by_chunks(
     indexes,
     df_indexes, df_template, df_columns, 
     path_to_file,
-    index_transform=None
-    chunk_length=CHUNK_LENGTH,
+    index_transform=None,
+    chunk_length=CHUNK_LENGTH
 ):
     df_inds = []
     rows = len(indexes)
@@ -31,15 +31,17 @@ def save_by_chunks(
     for i in tqdm.tqdm(range(chunk_number), desc="Save progress"):
         start = i * chunk_length
         end = (i + 1) * chunk_length
-        if i == chunk_number - 1:
-            end = i * len(indexes)
+        if i >= chunk_number - 1:
+            end = len(indexes)
         
         dump_indexes = indexes[start : end]
         
         source_indexes = []
         target_indexes = []
         for ind in dump_indexes:
-            ind = index_transform[ind]
+            if not (index_transform is None):
+                ind = index_transform[ind]
+
             s, t = core.extern.paired_index(ind, len(df_indexes))
             source_indexes.append(df_indexes[s])
             target_indexes.append(df_indexes[t])
