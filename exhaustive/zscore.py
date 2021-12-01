@@ -38,8 +38,7 @@ CORRELATION = config["correlation"]
 ALTERNATIVE = config["alternative"]
 SCORE = config["score"]
 
-# REPEATS_NUMBER = config["repeats_number"]
-REPEATS_NUMBER = 1
+REPEATS_NUMBER = config["repeats_number"]
 PROCESS_NUMBER = config["process_number"]
 
 FDR_THRESHOLD = config["fdr_treshold"]
