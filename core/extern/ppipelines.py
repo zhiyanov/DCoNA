@@ -36,7 +36,7 @@ def ztest_pipeline(
     alternative="two-sided",
     repeats_num=1000,
     process_num=1,
-    numerical_index=False,
+    numerical_index=False
 ):
     data = df.to_numpy(copy=True).astype("float32")
 

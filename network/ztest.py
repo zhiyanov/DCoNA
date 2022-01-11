@@ -35,7 +35,8 @@ EXPERIMENTAL_GROUP = config["experimental_group"]
 
 CORRELATION = config["correlation"]
 ALTERNATIVE = config["alternative"]
-REPEATS_NUMBER = config["repeats_number"]
+# REPEATS_NUMBER = config["repeats_number"]
+REPEATS_NUMBER = 0
 PROCESS_NUMBER = config["process_number"]
 
 FDR_THRESHOLD = config["fdr_treshold"]
