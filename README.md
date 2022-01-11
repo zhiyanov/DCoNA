@@ -1,6 +1,39 @@
-# co-expression_networks
- Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec consequat justo in quam viverra scelerisque. Integer quis est elementum, fermentum libero non, molestie sem. Sed congue dictum dui ac auctor. Maecenas iaculis, turpis in cursus fermentum, est sapien vehicula arcu, et sodales enim nisi sit amet enim. Donec libero odio, vestibulum a eleifend id, tincidunt quis nulla. In porttitor eu justo quis scelerisque. Mauris id lectus vitae orci interdum molestie ut et ligula. Ut in
- velit mi. Donec sodales rhoncus risus, vitae finibus ligula imperdiet eu. Etiam rhoncus, arcu et pulvinar maximus, massa erat vulputate risus, scelerisque pellentesque ex justo euismod mauris. Etiam viverra tempus purus vitae lacinia. Praesent ac dignissim quam. Morbi malesuada purus quis turpis sollicitudin, ac congue ex ullamcorper. Pellentesque vehicula dolor odio, nec accumsan odio lobortis eu.
+# DCoNA: tool for fast Differential Correlation Network Analysis
+TODO: what is DCoNA and why do you should use it?
+TODO: put a short feature description.
 
- Cras quis nisl mauris. Pellentesque massa diam, posuere in arcu vitae, iaculis dapibus turpis. Morbi luctus ut odio id pharetra. Nullam vitae mauris et nunc efficitur efficitur quis nec ligula. Vestibulum placerat quis sem vel sagittis. Suspendisse iaculis lorem eget semper volutpat. Curabitur ultricies leo ut felis ornare, vel accumsan arcu fringilla. In volutpat enim eget neque hendrerit laoreet. Sed luctus, orci sed volutpat malesuada, diam mauris finibus risus, mattis tristique
- ligula est non nibh. Donec cursus tellus quis elit viverra euismod. Sed faucibus diam sed odio fringilla, quis volutpat eros venenatis. 
+## Installation instructions
+### Installation as a comand line tool
+TODO: installation from pip3
+
+### Installation from source code
+Start with cloning the repo. It is really crucial to clone it with all the submodules as follows:
+```
+git clone --recurse-submodules git@github.com:zhiyanov/DCoNA.git
+```
+
+#### Linux (Ubunt)
+First, install the necessary dependencies:
+TODO: change the example below
+```
+sudo apt-get install -y g++ make cmake python3-dev python3-pip python3-numpy
+sudo pip3 install cython pot
+```
+
+#### OS X
+All instructions are the same, except that you need to install dependencies differently, through a combination of `pip3` and `brew`.
+
+### Downloading TCGA-PRAD dataset
+TODO: put the link here.
+
+
+## Usage examples
+### Running the code
+#### Regime of given interactions
+
+#### All vs all regime
+
+### Runing as a comand line tool
+#### Regime of given interactions
+
+#### All vs all regime
