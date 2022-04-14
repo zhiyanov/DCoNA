@@ -1,10 +1,34 @@
 # DCoNA: tool for fast Differential Correlation Network Analysis
-TODO: what is DCoNA and why shold you use it?
+TODO: what is DCoNA and why should you use it?
 TODO: put a short feature description.
 
-## Installation instructions
 
-### Installation as a comand line tool
+
+<details open="open">
+  <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
+  <ol>
+    <li><a href="#installation">Installation</a></li>
+      <ul>
+          <li><a href="#installation-as-a-command-line-tool">Install1</a></li>
+          <li><a href="#installation-from-source-code">Install2</a></li>
+      </ul>
+    <li><a href="#usage">Usage</a></li>
+      <ul>
+          <li><a href="#data-structure">Data structure</a></li>
+          <li><a href="#regime-of-given-interactions">Regime of given interactions</a></li>
+      </ul>
+  </ol>
+</details>
+
+
+[toc]
+
+
+
+
+## Installation
+
+### Installation as a command line tool
 TODO: installation from pip3
 
 ### Installation from source code
@@ -12,7 +36,7 @@ Start with cloning the repo. It is really crucial to clone it with all the submo
 ```
 git clone --recurse-submodules git@github.com:zhiyanov/DCoNA.git
 ```
-#### Linux (Ubunt)
+#### Linux (Ubuntu)
 TODO: change the example below
 First, install the necessary dependencies:
 ```
@@ -25,12 +49,12 @@ All instructions are the same, except that you need to install dependencies diff
 ### Downloading TCGA-PRAD dataset
 TODO: put the link here.
 
-## Usage examples
+## Usage
 
 ### Data structure
 To run the tool you need the following data
 * `config.json` data filenames and tool usage parameters:
-```
+```json
 {
 	"data_path": "~/input_directory/data.csv",
 	"description_path": "~/input_directory/description.csv",
@@ -46,17 +70,44 @@ To run the tool you need the following data
 	"repeats_number": 800,
 	"process_number": 64,
 
-	"fdr_treshold": 0.05
+	"fdr_threshold": 0.05
 }
 ```
 Data description:
+
 * `data_path` : `data.csv` contains an expression table. Rows of the table should be grouped by genes, miRNAs, isomiRNAs and other items. Columns of the table are grouped by patients taken from two different groups.
-* `description_path` : `description.csv` devide the patients on two non-intersecting groups (e.g. `Normal` and `Tumor` (`Tumor`) patients). It is assumed that a patient does not belong to the both groups simultaneously.
+
+  Structure of `data.csv` :
+
+  |        | sample_1 | ...  | sample_n |
+  | :----: | :------: | :--: | :------: |
+  | gene_1 |  1.2345  | ...  |  1.2345  |
+  |  ...   |   ...    | ...  |   ...    |
+  | gene_n |  1.2345  | ...  |  1.2345  |
+
+  
+
+* `description_path` : `description.csv` divide patients into **two** non-intersecting groups (e.g. `Normal` and `Tumor` patients). It is assumed that a patient does not belong to the both groups simultaneously.
+
+  Structure of `description.csv`:
+
+  |  Sample  |    Group    |
+  | :------: | :---------: |
+  | sample_1 | condition_1 |
+  |   ...    |     ...     |
+  | sample_n | condition_2 |
+
+  Column names have to be exactly `Sample` and `Group`.
+
 * `interaction_path` : `interaction.csv` (optionally) contains source/target pairs: correlations will be computed among this pairs (in `network` mode). You should to delete this line from the config file in `exhaustive` mode.
+
 * `output_dir_path` is a path to an output directory.
-Usage parameters:
+  Usage parameters:
+
 * `reference_group`, `experimental_group` are names of the patien groups.
+
 * `correlation` : `spearman` or `pearson`, defines the type of correlation that will be used in the tool.
+
 * `alternative` : `two-sidede`, `less` or `greater`. TODO: describe the parameter meaning in `ztest` and `zscore` regimes.
 
 ### Regime of given interactions
