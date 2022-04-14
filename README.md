@@ -21,7 +21,7 @@ TODO: put a short feature description.
 </details>
 
 
-[toc]
+
 
 
 
@@ -99,19 +99,28 @@ Data description:
 
   Column names have to be exactly `Sample` and `Group`.
 
-* `interaction_path` : `interaction.csv` (optionally) contains source/target pairs: correlations will be computed among this pairs (in `network` mode). You should to delete this line from the config file in `exhaustive` mode.
+* `interaction_path` : `interaction.csv` (optionally) contains source/target pairs: correlations will be computed among this pairs (in `network` mode). You should delete this line from the config file in `exhaustive` mode.
+
+  Structure of `description.csv`:
+
+  |    Source     |    Target     |
+  | :-----------: | :-----------: |
+  | source_gene_1 | target_gene_2 |
+  |      ...      |      ...      |
+  | source_gene_n | target_gene_n |
+
+  Column names have to be exactly `Source` and `Target`.
 
 * `output_dir_path` is a path to an output directory.
-  Usage parameters:
 
-* `reference_group`, `experimental_group` are names of the patien groups.
+Usage parameters:
 
+* `reference_group`, `experimental_group` are names of the patient groups.
 * `correlation` : `spearman` or `pearson`, defines the type of correlation that will be used in the tool.
-
-* `alternative` : `two-sidede`, `less` or `greater`. TODO: describe the parameter meaning in `ztest` and `zscore` regimes.
+* `alternative` : `two-sided`, `less` or `greater`. TODO: describe the parameter meaning in `ztest` and `zscore` regimes.
 
 ### Regime of given interactions
-As a comand line tool you can run th
+As a command line tool you can run th
 ```
 
 ```
