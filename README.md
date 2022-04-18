@@ -15,10 +15,17 @@ TODO: put a short feature description.
     <li><a href="#usage">Usage</a></li>
       <ul>
           <li><a href="#data-structure">Data structure</a></li>
-          <li><a href="#regime-of-given-interactions">Regime of given interactions</a></li>
+          <li><a href="#Working-modes">Working modes</a></li>
+            <ul>
+              <li><a href="#ztest">Ztest</a></li>
+              <li><a href="#hypergeom">Hypergeom</a></li>
+              <li><a href="#zscore">Zscore</a></li>
+            </ul>
+          <li><a href="#Network-and-exhaustive-regimes">Network and exhaustive regimes</a></li>
       </ul>
   </ol>
 </details>
+
 
 
 
@@ -73,6 +80,8 @@ To run the tool you need the following data
 	"fdr_threshold": 0.05
 }
 ```
+Both relative and absolute file paths can be used.
+
 Data description:
 
 * `data_path` : `data.csv` contains an expression table. Rows of the table should be grouped by genes, miRNAs, isomiRNAs and other items. Columns of the table are grouped by patients taken from two different groups.
@@ -101,7 +110,7 @@ Data description:
 
 * `interaction_path` : `interaction.csv` (optionally) contains source/target pairs: correlations will be computed among this pairs (in `network` mode). You should delete this line from the config file in `exhaustive` mode.
 
-  Structure of `description.csv`:
+  Structure of `interaction.csv`:
 
   |    Source     |    Target     |
   | :-----------: | :-----------: |
@@ -116,14 +125,57 @@ Data description:
 Usage parameters:
 
 * `reference_group`, `experimental_group` are names of the patient groups.
+
 * `correlation` : `spearman` or `pearson`, defines the type of correlation that will be used in the tool.
-* `alternative` : `two-sided`, `less` or `greater`. TODO: describe the parameter meaning in `ztest` and `zscore` regimes.
 
-### Regime of given interactions
-As a command line tool you can run th
+* `alternative` : `two-sided`, `less` or `greater`. 
+
+  TODO: describe the parameter meaning in `ztest` and `zscore` regimes.
+
+### Working modes
+
+#### Ztest
+
+TODO: description
+
+Usage:
+
+```bash
+# For network regime
+python3 ~/network/ztest.py config.json
+# For exhaustive regime
+python3 ~/exhaustive/ztest.py config.json
 ```
 
+#### Hypergeom
+
+TODO: description
+
+Usage:
+
+```bash
+# For network regime
+python3 ~/network/hypergeom.py config.json
+# For exhaustive regime
+python3 ~/exhaustive/hypergeom.py config.json
 ```
 
-### All vs all regime
+#### Zscore
 
+TODO: description
+
+Usage:
+
+```bash
+# For network regime
+python3 ~/network/zscore.py config.json
+# For exhaustive regime
+python3 ~/exhaustive/zscore.py config.json
+```
+
+### Network and exhaustive regimes
+
+DCoNA has two working regimes:
+
+* Network (interactions) regime - performs calculations only on given gene pairs. Requires an `interaction.csv` file.
+* Exhaustive (all vs all) regime - generates all possible gene pairs from genes listed in`data.csv` and performs calculations. An `interaction.csv` file is not needed.
