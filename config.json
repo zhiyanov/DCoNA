@@ -1,0 +1,19 @@
+{
+	"data_path": "/home/dude/huge/dude/co-expression_networks/data/CD44/data.csv",
+	"description_path": "/home/dude/huge/dude/co-expression_networks/data/CD44/description.csv",
+	"interaction_path": "/home/dude/huge/dude/co-expression_networks/data/CD44/interaction.csv",
+	"output_dir_path": "/home/Mount_sda1/narek/DGCA_coexpression/co-expression_tests/test/",
+	
+	"_reference_group": "Normal",
+	"_experimental_group": "Tumor",	
+	"reference_group": "shCD44",
+	"experimental_group": "shLuc",
+
+	"correlation": "spearman",
+	"alternative": "two-sided",
+	"score": "median",
+	"repeats_number": 2,
+	"process_number": 60,
+
+	"fdr_treshold": 0.05
+}

@@ -1,6 +1,7 @@
 import tqdm
 import sys
 import os
+import json
 
 import core.extern
 
@@ -62,3 +63,30 @@ def save_by_chunks(
         )
         
         MODE, HEADER = 'a', False
+
+def read_json(
+    path_to_json
+):
+    config = json.load(open(path_to_json, "r"))
+    DATA_PATH = config["data_path"]
+    DESCRIPTION_PATH = config["description_path"]
+    OUTPUT_DIR_PATH = config["output_dir_path"]
+    REFERENCE_GROUP = config["reference_group"]
+    EXPERIMENTAL_GROUP = config["experimental_group"]
+    
+    CORRELATION = config["correlation"]
+    ALTERNATIVE = config["alternative"]
+    # REPEATS_NUMBER = config["repeats_number"]
+    REPEATS_NUMBER = 0
+    PROCESS_NUMBER = config["process_number"]
+    
+    FDR_THRESHOLD = config["fdr_treshold"]
+    
+    if ("interaction_path" in config) and (config["interaction_path"] != ""):
+        INTERACTION_PATH = config["interaction_path"]
+    else:
+        INTERACTION_PATH = None
+    
+    return DATA_PATH, DESCRIPTION_PATH, OUTPUT_DIR_PATH, INTERACTION_PATH, \
+           REFERENCE_GROUP, EXPERIMENTAL_GROUP, CORRELATION, \
+           ALTERNATIVE, REPEATS_NUMBER, PROCESS_NUMBER, FDR_THRESHOLD
