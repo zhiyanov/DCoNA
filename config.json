@@ -1,7 +1,7 @@
 {
-	"data_path": "/home/dude/huge/dude/co-expression_networks/data/CD44/data.csv",
-	"description_path": "/home/dude/huge/dude/co-expression_networks/data/CD44/description.csv",
-	"interaction_path": "/home/dude/huge/dude/co-expression_networks/data/CD44/interaction.csv",
+	"data_path": "/home/dude/huge/dude/co-expression_data/TCGA-PRAD/data.csv",
+	"description_path": "/home/dude/huge/dude/co-expression_data/TCGA-PRAD/description.csv",
+	"interaction_path": "/home/dude/huge/dude/co-expression_data/TCGA-PRAD/expressed_isomiR_interaction.csv",
 	"output_dir_path": "/home/Mount_sda1/narek/DGCA_coexpression/co-expression_tests/test/",
 	
 	"_reference_group": "Normal",

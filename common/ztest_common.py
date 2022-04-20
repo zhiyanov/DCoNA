@@ -11,6 +11,7 @@ import time
 
 # Import python package
 import core.extern
+import core.utils
 
 # Arg parser
 import argparse
