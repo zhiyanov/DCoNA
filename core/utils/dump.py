@@ -23,8 +23,6 @@ def save_by_chunks(
     index_transform=None,
     chunk_length=CHUNK_LENGTH
 ):
-    df_inds = []
-    rows = len(indexes)
     MODE, HEADER = 'w', True
     
     # Splitting rows into chunks
@@ -76,8 +74,7 @@ def read_json(
     
     CORRELATION = config["correlation"]
     ALTERNATIVE = config["alternative"]
-    # REPEATS_NUMBER = config["repeats_number"]
-    REPEATS_NUMBER = 0
+    REPEATS_NUMBER = config["repeats_number"]
     PROCESS_NUMBER = config["process_number"]
     
     FDR_THRESHOLD = config["fdr_treshold"]
