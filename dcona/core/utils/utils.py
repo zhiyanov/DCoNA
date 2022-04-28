@@ -5,7 +5,7 @@ import tqdm
 import sys
 import os
 
-import core.extern
+from .. import extern
 
 BOOTSTRAP_REPEATS = 10**3
 

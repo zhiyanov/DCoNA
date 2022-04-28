@@ -1,30 +1,28 @@
 import numpy as np
 import pandas as pd
 import time
+import scipy.stats
 
 # Import python package
-import core.extern
-import core.utils
+import dcona.core.extern
+import dcona.core.utils
 
 
 def wrapped_ztest(
-                  DATA_PATH, DESCRIPTION_PATH, OUTPUT_DIR_PATH, INTERACTION_PATH, \
+                  data_df, description_df, interaction_df, \
                   REFERENCE_GROUP, EXPERIMENTAL_GROUP, CORRELATION, \
-                  ALTERNATIVE, REPEATS_NUMBER, PROCESS_NUMBER, FDR_THRESHOLD
+                  ALTERNATIVE, SCORE, REPEATS_NUMBER, PROCESS_NUMBER
 ):
-    data_df = pd.read_csv(DATA_PATH, sep=",", index_col=0)
-    description_df = pd.read_csv(DESCRIPTION_PATH, sep=",")
 
     if (CORRELATION == "spearman"):
-        correlation = core.extern.spearmanr
+        correlation = dcona.core.extern.spearmanr
     elif (CORRELATION == "pearson"):
-        correlation = core.extern.pearsonr
+        correlation = dcona.core.extern.pearsonr
     elif (CORRELATION == "spearman_test"):
         CORRELATION = "spearman"
-        correlation = core.extern.spearmanr_test
+        correlation = dcona.core.extern.spearmanr_test
 
-    if INTERACTION_PATH:
-        interaction_df = pd.read_csv(INTERACTION_PATH, sep=",")
+    if interaction_df is not None:
 
         data_molecules = set(data_df.index.to_list())
         interaction_df = interaction_df[interaction_df["Source"].isin(data_molecules)]
@@ -57,7 +55,7 @@ def wrapped_ztest(
     ref_corrs, ref_pvalues, \
     exp_corrs, exp_pvalues, \
     stat, pvalue, boot_pvalue = \
-    core.extern.ztest_pipeline(
+    dcona.core.extern.ztest_pipeline(
         data_df,
         reference_indexes,
         experimental_indexes,
@@ -92,9 +90,6 @@ def wrapped_ztest(
     adjusted_pvalue = adjusted_pvalue[indexes]
     df_indexes = data_df.index.to_numpy()
 
-    # Remove low fdr interactions 
-    indexes = np.where(adjusted_pvalue < FDR_THRESHOLD)[0]
-
     ref_corrs = ref_corrs[indexes]
     ref_pvalues = ref_pvalues[indexes]
 
@@ -117,7 +112,7 @@ def wrapped_ztest(
     print("Sorting FDR/pvalue array")
     sorted_indexes = np.argsort(FDR_pvalue, order=('FDR','pvalue'))
     del FDR_pvalue
-    print("FDR/pvalue array is sorted")
+    print("FDR/pvalue array is sorted", flush=True)
 
     return sorted_indexes, indexes, df_indexes, ref_corrs, \
            ref_pvalues, exp_corrs, exp_pvalues, stat, pvalue, \
@@ -125,23 +120,20 @@ def wrapped_ztest(
 
 
 def wrapped_zscore(
-                  DATA_PATH, DESCRIPTION_PATH, OUTPUT_DIR_PATH, INTERACTION_PATH, \
+                  data_df, description_df, interaction_df, \
                   REFERENCE_GROUP, EXPERIMENTAL_GROUP, CORRELATION, \
-                  ALTERNATIVE, REPEATS_NUMBER, PROCESS_NUMBER, FDR_THRESHOLD
+                  ALTERNATIVE, SCORE, REPEATS_NUMBER, PROCESS_NUMBER
 ):
-    data_df = pd.read_csv(DATA_PATH, sep=",", index_col=0)
-    description_df = pd.read_csv(DESCRIPTION_PATH, sep=",")
 
     if (CORRELATION == "spearman"):
-        correlation = core.extern.spearmanr
+        correlation = dcona.core.extern.spearmanr
     elif (CORRELATION == "pearson"):
-        correlation = core.extern.pearsonr
+        correlation = dcona.core.extern.pearsonr
     elif (CORRELATION == "spearman_test"):
         CORRELATION = "spearman"
-        correlation = core.extern.spearmanr_test
+        correlation = dcona.core.extern.spearmanr_test
 
-    if INTERACTION_PATH:
-        interaction_df = pd.read_csv(INTERACTION_PATH, sep=",")
+    if interaction_df is not None:
 
         data_molecules = set(data_df.index.to_list())
         interaction_df = interaction_df[interaction_df["Source"].isin(data_molecules)]
@@ -174,7 +166,7 @@ def wrapped_zscore(
     start = time.time()
 
     sources, scores, pvalues = \
-    core.extern.score_pipeline(
+    dcona.core.extern.score_pipeline(
         data_df,
         reference_indexes,
         experimental_indexes,
@@ -193,11 +185,11 @@ def wrapped_zscore(
     adjusted_pvalue[adjusted_pvalue > 1] = 1
     adjusted_pvalue = adjusted_pvalue.flatten()
     
-    return , adjusted_pvalue
+    return data_df, sources, scores, pvalues, adjusted_pvalue
 
 
 def zscore_to_df(
-                 sources, data_df, scores, pvalues, adjusted_pvalue
+                 data_df, sources, scores, pvalues, adjusted_pvalue
 ):
     output_df = pd.DataFrame()
     output_df["Source"] = data_df.index.to_numpy()[sources]
@@ -210,16 +202,16 @@ def zscore_to_df(
 
 
 def ztest_to_df(
+                sorted_indexes, indexes, df_indexes,
                 ref_corrs, ref_pvalues,
                 exp_corrs, exp_pvalues, stat,
-                pvalue, boot_pvalue, adjusted_pvalue,
-                sorted_indexes, df_indexes
+                pvalue, boot_pvalue, adjusted_pvalue        
 ):
     source_indexes = []
     target_indexes = []
 
     for ind in sorted_indexes:
-        s, t = core.extern.paired_index(ind, len(df_indexes))
+        s, t = dcona.core.extern.paired_index(ind, len(df_indexes))
         source_indexes.append(df_indexes[s])
         target_indexes.append(df_indexes[t])
 
@@ -240,11 +232,11 @@ def ztest_to_df(
 
 
 def ztest_to_file(
+                  sorted_indexes, indexes, df_indexes,
                   ref_corrs, ref_pvalues,
                   exp_corrs, exp_pvalues, stat,
                   pvalue, boot_pvalue, adjusted_pvalue,
-                  CORRELATION, sorted_indexes, 
-                  df_indexes, indexes
+                  CORRELATION
 ):
     df_template = pd.DataFrame(columns=[
         "Source", "Target", "RefCorr", "RefPvalue", 
@@ -258,10 +250,115 @@ def ztest_to_file(
     ]
 
     path_to_file = OUTPUT_DIR_PATH.rstrip("/") + "/{}_ztest.csv".format(CORRELATION)
-    core.utils.save_by_chunks(
+    dcona.core.utils.save_by_chunks(
         sorted_indexes, 
         df_indexes, df_template, df_columns,
         path_to_file,
         # index_transform=None
         index_transform=indexes
     )
+
+
+def zscore(data_df, description_df, \
+           reference_group, experimental_group, \
+           output_dir=None, interaction_df=None, \
+           correlation="spearman", alternative="two-sided", score="mean", \
+           repeats=1000, process_number=1
+):
+
+    # If gene names are in dataframe column, relocate them in df.index
+    if not pd.api.types.is_number(data_df.iloc[0, 0]):
+        data_df = data_df.copy()
+        data_df.set_index(data_df.columns[0], inplace = True)
+
+    result = wrapped_zscore(data_df, description_df, interaction_df, \
+                            reference_group, experimental_group, correlation, \
+                            alternative, score, repeats, process_number)
+                            
+    output_df = zscore_to_df(*result)
+    
+    if output_dir:
+        dcona.core.utils.check_directory_existence(output_dir)
+        path_to_file = output_dir.rstrip("/") + \
+                       "/{}_{}_{}_zscore.csv".format(correlation, score, alternative)
+        output_df.to_csv(
+            path_to_file,
+            sep=",",
+            index=None
+        )
+        print(f"File saved at: {path_to_file}")
+        
+        return
+    else:
+        return output_df
+
+
+def ztest(data_df, description_df, \
+          reference_group, experimental_group, \
+          output_dir=None, interaction_df=None, \
+          correlation="spearman", alternative="two-sided", score="mean", \
+          repeats=1000, process_number=1
+):
+
+    # If gene names are in dataframe column, relocate them in df.index
+    if not pd.api.types.is_number(data_df.iloc[0, 0]):
+        data_df = data_df.copy()
+        data_df.set_index(data_df.columns[0], inplace = True)
+
+    sorted_indexes, indexes, \
+    df_indexes, ref_corrs, \
+    ref_pvalues, exp_corrs, \
+    exp_pvalues, stat, pvalue, \
+    boot_pvalue, adjusted_pvalue = \
+    wrapped_ztest(data_df, description_df, interaction_df, \
+                  reference_group, experimental_group, correlation, \
+                  alternative, score, repeats, process_number)
+    
+
+    if output_dir:
+        dcona.core.utils.check_directory_existence(output_dir)
+        
+        df_template = pd.DataFrame(columns=[
+            "Source", "Target", "RefCorr", "RefPvalue", 
+            "ExpCorr", "ExpPvalue", "Statistic",
+            "Pvalue", "Bootpv", "FDR"
+        ])
+        df_columns = [
+            ref_corrs, ref_pvalues,
+            exp_corrs, exp_pvalues, stat,
+            pvalue, boot_pvalue, adjusted_pvalue
+        ]
+
+        path_to_file = output_dir.rstrip("/") + "/{}_ztest.csv".format(correlation)
+        dcona.core.utils.save_by_chunks(
+            sorted_indexes, 
+            df_indexes, df_template, df_columns,
+            path_to_file,
+            # index_transform=None
+            index_transform=indexes
+        )
+        print(f"File saved at: {path_to_file}")
+        return
+    else:
+        source_indexes = []
+        target_indexes = []
+
+        for ind in sorted_indexes:
+            s, t = dcona.core.extern.paired_index(ind, len(df_indexes))
+            source_indexes.append(df_indexes[s])
+            target_indexes.append(df_indexes[t])
+
+
+        output_df = pd.DataFrame(data = {
+                                        "Source": source_indexes,
+                                        "Target": target_indexes,
+                                        "RefCorr": ref_corrs[sorted_indexes], 
+                                        "RefPvalue": ref_pvalues[sorted_indexes], 
+                                        "ExpCorr": exp_corrs[sorted_indexes], 
+                                        "ExpPvalue": exp_pvalues[sorted_indexes], 
+                                        "Statistic": stat[sorted_indexes],
+                                        "Pvalue": pvalue[sorted_indexes], 
+                                        "Bootpv": boot_pvalue[sorted_indexes], 
+                                        "FDR": adjusted_pvalue[sorted_indexes]
+                                        })
+        return output_df

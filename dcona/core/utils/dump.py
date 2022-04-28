@@ -2,8 +2,9 @@ import tqdm
 import sys
 import os
 import json
+from time import sleep
 
-import core.extern
+from .. import extern
 
 CHUNK_LENGTH = 10**6
 
@@ -27,6 +28,7 @@ def save_by_chunks(
     
     # Splitting rows into chunks
     chunk_number = (len(indexes) + chunk_length - 1) // chunk_length
+
     for i in tqdm.tqdm(range(chunk_number), desc="Save progress"):
         start = i * chunk_length
         end = (i + 1) * chunk_length
@@ -41,7 +43,7 @@ def save_by_chunks(
             if not (index_transform is None):
                 ind = index_transform[ind]
 
-            s, t = core.extern.paired_index(ind, len(df_indexes))
+            s, t = extern.paired_index(ind, len(df_indexes))
             source_indexes.append(df_indexes[s])
             target_indexes.append(df_indexes[t])
         
@@ -74,6 +76,8 @@ def read_json(
     
     CORRELATION = config["correlation"]
     ALTERNATIVE = config["alternative"]
+    SCORE = config["score"]
+    
     REPEATS_NUMBER = config["repeats_number"]
     PROCESS_NUMBER = config["process_number"]
     
@@ -83,7 +87,12 @@ def read_json(
         INTERACTION_PATH = config["interaction_path"]
     else:
         INTERACTION_PATH = None
+        
+    if ("score" in config) and (config["score"] != ""):
+        SCORE = config["score"]
+    else:
+        SCORE = None
     
     return DATA_PATH, DESCRIPTION_PATH, OUTPUT_DIR_PATH, INTERACTION_PATH, \
            REFERENCE_GROUP, EXPERIMENTAL_GROUP, CORRELATION, \
-           ALTERNATIVE, REPEATS_NUMBER, PROCESS_NUMBER, FDR_THRESHOLD
+           ALTERNATIVE, SCORE, REPEATS_NUMBER, PROCESS_NUMBER, FDR_THRESHOLD
