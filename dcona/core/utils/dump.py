@@ -2,11 +2,10 @@ import tqdm
 import sys
 import os
 import json
-from time import sleep
 
 from .. import extern
 
-CHUNK_LENGTH = 10**6
+CHUNK_LENGTH = 10**5
 
 
 def check_directory_existence(
@@ -80,9 +79,7 @@ def read_json(
     
     REPEATS_NUMBER = config["repeats_number"]
     PROCESS_NUMBER = config["process_number"]
-    
-    FDR_THRESHOLD = config["fdr_treshold"]
-    
+        
     if ("interaction_path" in config) and (config["interaction_path"] != ""):
         INTERACTION_PATH = config["interaction_path"]
     else:
@@ -95,4 +92,4 @@ def read_json(
     
     return DATA_PATH, DESCRIPTION_PATH, OUTPUT_DIR_PATH, INTERACTION_PATH, \
            REFERENCE_GROUP, EXPERIMENTAL_GROUP, CORRELATION, \
-           ALTERNATIVE, SCORE, REPEATS_NUMBER, PROCESS_NUMBER, FDR_THRESHOLD
+           ALTERNATIVE, SCORE, REPEATS_NUMBER, PROCESS_NUMBER
