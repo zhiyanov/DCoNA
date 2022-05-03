@@ -25,7 +25,7 @@ ext_modules = [
          "dcona/native/src/lib/utils.cpp"],
          include_dirs=[pybind11.get_include()],
          language='c++',
-         extra_compile_args=['-std=c++11', '-march=native', '-O3', '-Wall']
+         extra_compile_args=['-std=c++11', '-O3', '-Wall']
         ),
 
     Extension("dcona.core.extern.correlations",
@@ -34,7 +34,7 @@ ext_modules = [
          "dcona/native/src/correlations/correlations.cpp"],
          include_dirs=[pybind11.get_include()],
          language='c++',
-         extra_compile_args=['-std=c++11', '-march=native', '-O3', '-Wall']
+         extra_compile_args=['-std=c++11', '-O3', '-Wall']
         ),
         
     Extension("dcona.core.extern.tests",
@@ -44,7 +44,7 @@ ext_modules = [
          "dcona/native/src/lib/tests.cpp"],
          include_dirs=[pybind11.get_include()],
          language='c++',
-         extra_compile_args=['-std=c++11', '-march=native', '-O3', '-Wall']
+         extra_compile_args=['-std=c++11', '-O3', '-Wall']
         ),
         
     Extension("dcona.core.extern.scores",
@@ -53,7 +53,7 @@ ext_modules = [
          "dcona/native/src/lib/scores.cpp"],
          include_dirs=[pybind11.get_include()],
          language='c++',
-         extra_compile_args=['-std=c++11', '-march=native', '-O3', '-Wall']
+         extra_compile_args=['-std=c++11', '-O3', '-Wall']
         ),
         
     Extension("dcona.core.extern.pipelines",
@@ -65,7 +65,7 @@ ext_modules = [
          "dcona/native/src/lib/pipelines.cpp"],
          include_dirs=[pybind11.get_include()],
          language='c++',
-         extra_compile_args=['-std=c++11', '-march=native', '-O3', '-Wall']
+         extra_compile_args=['-std=c++11', '-O3', '-Wall']
         ),
 ]
 
