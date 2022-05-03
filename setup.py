@@ -14,7 +14,7 @@ with open("README.md", "r") as readme_file:
 
 requirements = ['pybind11', 'pandas', 'numpy', 'scipy', 'tqdm']
 
-__version__ = "0.0.1"
+__version__ = "0.0.5"
 
 
 src = 'dcona/native/src/'
@@ -87,5 +87,8 @@ setup(
         'console_scripts': [
             'dcona = dcona.__main__:main',
         ],
-    }
+    },
+    dependency_links=[
+        'https://pypi.org/project/pybind11/'
+    ]
 )
