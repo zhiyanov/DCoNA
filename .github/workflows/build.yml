@@ -11,82 +11,26 @@ on:
 jobs:
   build_wheels:
     name: Build wheel for cp${{ matrix.python }}-${{ matrix.platform_id }}-${{ matrix.manylinux_image }}
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.buildplat[0] }}
     strategy:
       # Ensure that a wheel builder finishes even if another fails
       fail-fast: false
       matrix:
-        include:
-          # Windows 64 bit
-          - os: windows-2019
-            python: 38
-            bitness: 64
-            platform_id: win_amd64
-          - os: windows-latest
-            python: 39
-            bitness: 64
-            platform_id: win_amd64
-          - os: windows-latest
-            python: 310
-            bitness: 64
-            platform_id: win_amd64
-
-          # Windows 32 bit
-          - os: windows-latest
-            python: 38
-            bitness: 32
-            platform_id: win32
-          - os: windows-latest
-            python: 39
-            bitness: 32
-            platform_id: win32
-
-          # Linux 64 bit manylinux2014
-          - os: ubuntu-latest
-            python: 38
-            bitness: 64
-            platform_id: manylinux_x86_64
-            manylinux_image: manylinux2014
-          - os: ubuntu-latest
-            python: 39
-            bitness: 64
-            platform_id: manylinux_x86_64
-            manylinux_image: manylinux2014
-
-          # NumPy on Python 3.10 only supports 64bit and is only available with manylinux2014
-          - os: ubuntu-latest
-            python: 310
-            bitness: 64
-            platform_id: manylinux_x86_64
-            manylinux_image: manylinux2014
-
-          # MacOS x86_64
-          - os: macos-latest
-            bitness: 64
-            python: 38
-            platform_id: macosx_x86_64
-          - os: macos-latest
-            bitness: 64
-            python: 39
-            platform_id: macosx_x86_64
-          - os: macos-latest
-            bitness: 64
-            python: 310
-            platform_id: macosx_x86_64
-
-          # MacOS arm64
-          - os: macos-latest
-            bitness: 64
-            python: 38
-            platform_id: macosx_arm64
-          - os: macos-latest
-            bitness: 64
-            python: 39
-            platform_id: macosx_arm64
-          - os: macos-latest
-            bitness: 64
-            python: 310
-            platform_id: macosx_arm64
+        buildplat:
+          - [ubuntu-latest, manylinux_x86_64]
+          - [macos-latest, macosx_*]
+          - [windows-latest, win_amd64]
+          - [windows-latest, win32]
+        python: ["cp38", "cp39", "cp310", "pp38"]
+        
+        exclude:
+          # Don't build PyPy 32-bit windows
+          - buildplat: [windows-latest, win32]
+            python: "pp38"
+          - buildplat: [windows-latest, win32]
+            python: "pp39"
+          - buildplat: [windows-latest, win32]
+            python: "cp310"
 
     steps:
       - uses: actions/checkout@v2
@@ -99,11 +43,8 @@ jobs:
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.5.0
         env:
-          CIBW_BUILD: cp${{ matrix.python }}-${{ matrix.platform_id }}
+          CIBW_BUILD: ${{ matrix.python }}-${{ matrix.buildplat[1] }}
           CIBW_ARCHS: all
-          CIBW_MANYLINUX_X86_64_IMAGE: ${{ matrix.manylinux_image }}
-          CIBW_MANYLINUX_I686_IMAGE: ${{ matrix.manylinux_image }}
-          CIBW_TEST_SKIP: "*-macosx_arm64"
           CIBW_BEFORE_BUILD_WINDOWS: "pip install delvewheel"
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: "delvewheel repair -w {dest_dir} {wheel}"
           

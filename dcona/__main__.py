@@ -1,12 +1,8 @@
-import pandas as pd
-import argparse
-
-import dcona.core.extern
-import dcona.core.utils
-import dcona.common.wrapped_pipelines as pipelines
-
-
 def ztest_cli(config_path):
+    import pandas as pd
+    import dcona.core.extern
+    import dcona.core.utils
+    import dcona.common.wrapped_pipelines as pipelines
     DATA_PATH, DESCRIPTION_PATH, OUTPUT_DIR_PATH, INTERACTION_PATH, \
     reference_group, experimental_group, correlation, \
     alternative, score, repeats, process_number = \
@@ -52,7 +48,11 @@ def ztest_cli(config_path):
     print(f"File saved at: {path_to_file}")
     
     
-def zscore_cli(config_path):    
+def zscore_cli(config_path):   
+    import pandas as pd
+    import dcona.core.extern
+    import dcona.core.utils
+    import dcona.common.wrapped_pipelines as pipelines
     DATA_PATH, DESCRIPTION_PATH, OUTPUT_DIR_PATH, INTERACTION_PATH, \
     reference_group, experimental_group, correlation, \
     alternative, score, repeats, process_number = \
@@ -84,6 +84,7 @@ def zscore_cli(config_path):
 
 
 def main():
+    import argparse
     parser = argparse.ArgumentParser(prog='dcona',
                                      description='DCoNA (Differential Correlation Network Analysis)',
                                      epilog='https://github.com/zhiyanov/DCoNA')
@@ -92,6 +93,8 @@ def main():
     parser.add_argument("config_path",
                         help="Path to JSON config file")
     args = parser.parse_args()
+
+
     if args.tool=="ztest":
         ztest_cli(args.config_path)
     elif args.tool=="zscore":

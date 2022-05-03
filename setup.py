@@ -74,7 +74,7 @@ setup(
     name="dcona",
     version=__version__,
     author="Anton Zhiyanov",
-    author_email="antonzhiyanov17@gmail.com",
+    author_email="zhiyanovap@gmail.com",
     url="https://github.com/zhiyanov/DCoNA",
     description="Differential Correlation Network Analysis",
     long_description=readme,
