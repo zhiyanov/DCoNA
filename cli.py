@@ -95,7 +95,7 @@ def main():
     if args.tool=="ztest":
         ztest_cli(args.config_path)
     elif args.tool=="zscore":
-        ztest_cli(args.config_path)
+        zscore_cli(args.config_path)
 
 if __name__=="__main__":
     main()
