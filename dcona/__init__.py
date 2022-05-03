@@ -1,2 +1,2 @@
-from dcona.common import zscore, ztest
-import dcona.common, dcona.core
+from . import common, core
+from .common import zscore, ztest
