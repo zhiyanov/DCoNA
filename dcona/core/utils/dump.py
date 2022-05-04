@@ -10,10 +10,14 @@ CHUNK_LENGTH = 10**5
 
 def check_directory_existence(
     directory_path,
-    message="Output directory does not exist"
+    message_isdir="Output directory does not exist",
+    message_access="Permission denied (output directory)"
 ):
     if os.path.isdir(directory_path) == False:
-        print(message)
+        print(message_isdir)
+        sys.exit()
+    if os.access(directory_path, os.W_OK | os.X_OK) == False:
+        print(message_isdir)
         sys.exit()
 
 def save_by_chunks(
