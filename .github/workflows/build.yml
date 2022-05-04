@@ -55,6 +55,7 @@ jobs:
           
       - uses: actions/upload-artifact@v3
         with:
+          name: wheels_artifact
           path: ./wheelhouse/*.whl
           
           
@@ -69,6 +70,7 @@ jobs:
             
       - uses: actions/upload-artifact@v3
         with:
+          name: source_artifact
           path: dist/*.tar.gz
 
 
@@ -79,7 +81,12 @@ jobs:
     steps:
       - uses: actions/download-artifact@v3
         with:
-          path: dist/*
+          name: wheels_artifact
+          path: dist
+      - uses: actions/download-artifact@v3
+        with:
+          name: source_artifact
+          path: dist
           
       - name: Publish package
         #uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
