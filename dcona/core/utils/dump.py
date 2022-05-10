@@ -17,7 +17,7 @@ def check_directory_existence(
         print(message_isdir)
         sys.exit()
     if os.access(directory_path, os.W_OK | os.X_OK) == False:
-        print(message_isdir)
+        print(message_access)
         sys.exit()
 
 def save_by_chunks(
