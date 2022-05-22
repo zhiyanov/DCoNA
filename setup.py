@@ -14,6 +14,7 @@ with open("README.md", "r") as readme_file:
 
 requirements = ['pybind11', 'pandas', 'numpy', 'scipy', 'tqdm']
 
+
 __version__ = "0.0.9"
 
 
@@ -25,7 +26,7 @@ ext_modules = [
          "dcona/native/src/lib/utils.cpp"],
          include_dirs=[pybind11.get_include()],
          language='c++',
-         extra_compile_args=['-std=c++11', '-march=native', '-O3', '-Wall']
+         extra_compile_args=['-std=c++11', '-O3', '-Wall']
         ),
 
     Extension("dcona.core.extern.correlations",
@@ -34,7 +35,7 @@ ext_modules = [
          "dcona/native/src/correlations/correlations.cpp"],
          include_dirs=[pybind11.get_include()],
          language='c++',
-         extra_compile_args=['-std=c++11', '-march=native', '-O3', '-Wall']
+         extra_compile_args=['-std=c++11', '-O3', '-Wall']
         ),
         
     Extension("dcona.core.extern.tests",
@@ -44,7 +45,7 @@ ext_modules = [
          "dcona/native/src/lib/tests.cpp"],
          include_dirs=[pybind11.get_include()],
          language='c++',
-         extra_compile_args=['-std=c++11', '-march=native', '-O3', '-Wall']
+         extra_compile_args=['-std=c++11', '-O3', '-Wall']
         ),
         
     Extension("dcona.core.extern.scores",
@@ -53,7 +54,7 @@ ext_modules = [
          "dcona/native/src/lib/scores.cpp"],
          include_dirs=[pybind11.get_include()],
          language='c++',
-         extra_compile_args=['-std=c++11', '-march=native', '-O3', '-Wall']
+         extra_compile_args=['-std=c++11', '-O3', '-Wall']
         ),
         
     Extension("dcona.core.extern.pipelines",
@@ -65,7 +66,7 @@ ext_modules = [
          "dcona/native/src/lib/pipelines.cpp"],
          include_dirs=[pybind11.get_include()],
          language='c++',
-         extra_compile_args=['-std=c++11', '-march=native', '-O3', '-Wall']
+         extra_compile_args=['-std=c++11', '-O3', '-Wall']
         ),
 ]
 
@@ -73,8 +74,8 @@ ext_modules = [
 setup(
     name="dcona",
     version=__version__,
-    author="Anton Zhiyanov",
-    author_email="antonzhiyanov17@gmail.com",
+    author="Anton Zhiyanov, Narek Engibaryan",
+    author_email="zhiyanovap@gmail.com",
     url="https://github.com/zhiyanov/DCoNA",
     description="Differential Correlation Network Analysis",
     long_description=readme,
@@ -82,7 +83,7 @@ setup(
     packages=find_packages(),
     install_requires=requirements,
     ext_modules=ext_modules,
-    python_requires=">=3.6",
+    python_requires=">=3.8",
     entry_points={
         'console_scripts': [
             'dcona = dcona.__main__:main',
