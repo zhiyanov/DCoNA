@@ -4,6 +4,7 @@ import math
 import tqdm
 import sys
 import os
+import itertools
 
 from .. import extern
 
@@ -59,3 +60,22 @@ def creating_pairs(
     df = pd.DataFrame(res, columns=["Source", "Target"])
     
     return df
+    
+def form_gene_pairs(genes):    
+    if isinstance(genes, (list, set, pd.core.series.Series,np.ndarray)):
+        pairs = list(itertools.combinations(genes, 2))
+    elif isinstance(genes, str):
+        pairs = genes.replace(",", " ").split(" ")
+        pairs = list(filter(lambda a: a != "", pairs))
+        pairs = list(itertools.combinations(pairs, 2))
+    else:
+        try:
+            pairs = list(itertools.combinations(genes, 2))
+        except TypeError:
+            print("Use appropriate data type: list, np.array, string, etc.")
+            raise
+        except:
+            raise
+    
+    pairs_df = pd.DataFrame(pairs, columns=["Source", "Target"])
+    return pairs_df

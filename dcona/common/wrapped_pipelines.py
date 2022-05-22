@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import time
 import scipy.stats
+from multiprocessing import cpu_count
 
 # Import python package
 import dcona.core.extern
@@ -261,15 +262,23 @@ def ztest_to_file(
 
 def zscore(data_df, description_df, \
            reference_group, experimental_group, \
-           output_dir=None, interaction_df=None, \
+           output_dir=None, interaction=None, \
            correlation="spearman", alternative="two-sided", score="mean", \
-           repeats=1000, process_number=1
+           repeats=1000, process_number=cpu_count()
 ):
 
     # If gene names are in dataframe column, relocate them in df.index
     if not pd.api.types.is_number(data_df.iloc[0, 0]):
         data_df = data_df.copy()
         data_df.set_index(data_df.columns[0], inplace = True)
+        
+    if interaction is not None:
+        if isinstance(interaction, pd.core.frame.DataFrame):
+            interaction_df = interaction
+        else:
+            interaction_df = dcona.core.utils.form_gene_pairs(interaction)
+    else:
+        interaction_df = None
 
     result = wrapped_zscore(data_df, description_df, interaction_df, \
                             reference_group, experimental_group, correlation, \
@@ -295,15 +304,24 @@ def zscore(data_df, description_df, \
 
 def ztest(data_df, description_df, \
           reference_group, experimental_group, \
-          output_dir=None, interaction_df=None, \
+          output_dir=None, interaction=None, \
           correlation="spearman", alternative="two-sided", score="mean", \
-          repeats=1000, process_number=1
+          repeats=1000, process_number=cpu_count()
 ):
 
     # If gene names are in dataframe column, relocate them in df.index
     if not pd.api.types.is_number(data_df.iloc[0, 0]):
         data_df = data_df.copy()
         data_df.set_index(data_df.columns[0], inplace = True)
+        
+        
+    if interaction is not None:
+        if isinstance(interaction, pd.core.frame.DataFrame):
+            interaction_df = interaction
+        else:
+            interaction_df = dcona.core.utils.form_gene_pairs(interaction)
+    else:
+        interaction_df = None
 
     sorted_indexes, indexes, \
     df_indexes, ref_corrs, \
