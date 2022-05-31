@@ -2,7 +2,7 @@ def ztest_cli(config_path):
     import pandas as pd
     import dcona.core.extern
     import dcona.core.utils
-    import dcona.common.wrapped_pipelines as pipelines
+    import dcona.lib.wrapped_pipelines as pipelines
     DATA_PATH, DESCRIPTION_PATH, OUTPUT_DIR_PATH, INTERACTION_PATH, \
     reference_group, experimental_group, correlation, \
     alternative, score, repeats, process_number = \
@@ -52,7 +52,7 @@ def zscore_cli(config_path):
     import pandas as pd
     import dcona.core.extern
     import dcona.core.utils
-    import dcona.common.wrapped_pipelines as pipelines
+    import dcona.lib.wrapped_pipelines as pipelines
     DATA_PATH, DESCRIPTION_PATH, OUTPUT_DIR_PATH, INTERACTION_PATH, \
     reference_group, experimental_group, correlation, \
     alternative, score, repeats, process_number = \
