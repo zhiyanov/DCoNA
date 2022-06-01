@@ -1,2 +1,2 @@
-from . import lib, core
-from .lib import zscore, ztest
+from .lib.ztest import ztest
+from .lib.zscore import zscore

@@ -1,6 +1,3 @@
-import sys
-from glob import glob
-
 try:
     import pybind11
     from pybind11.setup_helpers import Pybind11Extension
@@ -27,7 +24,7 @@ ext_modules = [
          include_dirs=[pybind11.get_include()],
          language='c++',
          extra_compile_args=['-std=c++11', '-O3', '-Wall']
-        ),
+    ),
 
     Extension("dcona.core.extern.correlations",
         ["dcona/native/src/utils/utils.cpp",
@@ -36,7 +33,7 @@ ext_modules = [
          include_dirs=[pybind11.get_include()],
          language='c++',
          extra_compile_args=['-std=c++11', '-O3', '-Wall']
-        ),
+    ),
         
     Extension("dcona.core.extern.tests",
         ["dcona/native/src/utils/utils.cpp",
@@ -46,7 +43,7 @@ ext_modules = [
          include_dirs=[pybind11.get_include()],
          language='c++',
          extra_compile_args=['-std=c++11', '-O3', '-Wall']
-        ),
+    ),
         
     Extension("dcona.core.extern.scores",
         ["dcona/native/src/utils/utils.cpp",
@@ -55,7 +52,7 @@ ext_modules = [
          include_dirs=[pybind11.get_include()],
          language='c++',
          extra_compile_args=['-std=c++11', '-O3', '-Wall']
-        ),
+    ),
         
     Extension("dcona.core.extern.pipelines",
         ["dcona/native/src/utils/utils.cpp",
@@ -67,7 +64,7 @@ ext_modules = [
          include_dirs=[pybind11.get_include()],
          language='c++',
          extra_compile_args=['-std=c++11', '-O3', '-Wall']
-        ),
+    ),
 ]
 
 
