@@ -1,1 +1,2 @@
-from .wrapped_pipelines import ztest, zscore
+from .ztest import ztest
+from .zscore import zscore
