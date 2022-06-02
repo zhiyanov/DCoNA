@@ -2,8 +2,9 @@ import numpy as np
 import pandas as pd
 import scipy.stats
 
-from ..core import extern
-from ..core import utils
+from ..core import extern as cextern
+from ..core import utils as cutils
+from . import utils
 
 
 def zscore(
@@ -19,15 +20,15 @@ def zscore(
         process_number = 1
 
     # if gene names are in dataframe column, relocate them in df.index
-    if not pd.api.types.is_number(data_df.iloc[0, 0]):
-        data_df = data_df.copy()
-        data_df.set_index(data_df.columns[0], inplace=True)
+    # if not pd.api.types.is_number(data_df.iloc[0, 0]):
+    #     data_df = data_df.copy()
+    #     data_df.set_index(data_df.columns[0], inplace=True)
         
     if interaction is not None:
         if isinstance(interaction, pd.core.frame.DataFrame):
             interaction_df = interaction
         else:
-            interaction_df = utils.form_gene_pairs(interaction)
+            interaction_df = utils.generate_pairs(interaction)
         
         if repeats_number is None:
             repeats_number = int(len(interaction_df) / 0.05)
@@ -55,7 +56,7 @@ def zscore(
     output_df = output_df.sort_values(["FDR", "Pvalue"])
                             
     if output_dir:
-        utils.check_directory_existence(output_dir)
+        cutils.check_directory_existence(output_dir)
         path_to_file = output_dir.rstrip("/") + \
             f"/{correlation}_{score}_{alternative}_zscore.csv"
         output_df.to_csv(
@@ -106,7 +107,7 @@ def _zscore(
 
     print("Computation of z-scores")
     sources, scores, pvalues = \
-    extern.score_pipeline(
+    cextern.score_pipeline(
         data_df,
         reference_indexes,
         experimental_indexes,

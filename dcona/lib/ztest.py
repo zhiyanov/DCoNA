@@ -2,8 +2,9 @@ import numpy as np
 import pandas as pd
 import scipy.stats
 
-from ..core import extern
-from ..core import utils
+from ..core import extern as cextern
+from ..core import utils as cutils
+from . import utils
 
 
 def ztest(
@@ -19,15 +20,15 @@ def ztest(
         process_number = 1
 
     # if gene names are in dataframe column, relocate them in df.index
-    if not pd.api.types.is_number(data_df.iloc[0, 0]):
-        data_df = data_df.copy()
-        data_df.set_index(data_df.columns[0], inplace=True)
+    # if not pd.api.types.is_number(data_df.iloc[0, 0]):
+    #     data_df = data_df.copy()
+    #     data_df.set_index(data_df.columns[0], inplace=True)
         
     if interaction is not None:
         if isinstance(interaction, pd.core.frame.DataFrame):
             interaction_df = interaction
         else:
-            interaction_df = generate_pairs(interaction)
+            interaction_df = utils.generate_pairs(interaction)
 
         if repeats_number is None:
             repeats_number = int(len(interaction_df) / 0.05)
@@ -53,7 +54,7 @@ def ztest(
     )
     
     if output_dir:
-        utils.check_directory_existence(output_dir)
+        cutils.check_directory_existence(output_dir)
         
         if repeats_number > 0: 
             df_template = pd.DataFrame(columns=[
@@ -82,7 +83,7 @@ def ztest(
 
 
         path_to_file = output_dir.rstrip("/") + f"/{correlation}_ztest.csv"
-        utils.save_by_chunks(
+        cutils.save_by_chunks(
             sorted_indexes,
             df_indexes, df_template, df_columns,
             path_to_file,
@@ -96,7 +97,7 @@ def ztest(
         target_indexes = []
 
         for ind in sorted_indexes:
-            s, t = extern.paired_index(ind, len(df_indexes))
+            s, t = cextern.paired_index(ind, len(df_indexes))
             source_indexes.append(df_indexes[s])
             target_indexes.append(df_indexes[t])
         
@@ -167,7 +168,7 @@ def _ztest(
     ref_corrs, ref_pvalues, \
     exp_corrs, exp_pvalues, \
     stat, pvalue, boot_pvalue = \
-    extern.ztest_pipeline(
+    cextern.ztest_pipeline(
         data_df,
         reference_indexes,
         experimental_indexes,
@@ -229,21 +230,3 @@ def _ztest(
         stat, pvalue, adjusted_pvalue, \
         boot_pv
 
-def generate_pairs(objects):    
-    if isinstance(objects, (list, set, pd.core.series.Series, np.ndarray)):
-        pairs = list(itertools.combinations(objects, 2))
-    elif isinstance(objects, str):
-        pairs = objects.replace(",", " ").split(" ")
-        pairs = list(filter(lambda a: a != "", pairs))
-        pairs = list(itertools.combinations(pairs, 2))
-    else:
-        try:
-            pairs = list(itertools.combinations(objects, 2))
-        except TypeError:
-            print("Use appropriate data type: list, np.array, string, etc.")
-            raise
-        except:
-            raise
-    
-    pairs_df = pd.DataFrame(pairs, columns=["Source", "Target"])
-    return pairs_df
