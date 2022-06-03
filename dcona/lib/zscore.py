@@ -8,12 +8,12 @@ from . import utils
 
 
 def zscore(
-    data_df, description_df, \
-    reference_group, experimental_group, \
-    correlation="spearman", score="mean", alternative="two-sided", \
-    interaction=None, \
-    repeats_number=None, \
-    output_dir=None, \
+    data_df, description_df,
+    reference_group, experimental_group,
+    correlation="spearman", score="mean", alternative="two-sided",
+    interaction=None,
+    repeats_number=None,
+    output_dir=None,
     process_number=None 
 ):
     if process_number is None:
@@ -53,7 +53,7 @@ def zscore(
         "Pvalue": pvalues, 
         "AdjPvalue": adjusted_pvalue, 
     })
-    output_df = output_df.sort_values(["FDR", "Pvalue"])
+    output_df = output_df.sort_values(["AdjPvalue", "Pvalue"])
                             
     if output_dir:
         cutils.check_directory_existence(output_dir)
@@ -71,9 +71,9 @@ def zscore(
         return output_df
 
 def _zscore(
-    data_df, description_df, interaction_df, \
-    reference_group, experimental_group, \
-    correlation, score, alternative, \
+    data_df, description_df, interaction_df,
+    reference_group, experimental_group,
+    correlation, score, alternative,
     repeats_number, process_number
 ):
     if (correlation != "spearman"):

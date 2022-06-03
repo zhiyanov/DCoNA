@@ -8,12 +8,12 @@ from . import utils
 
 
 def ztest(
-    data_df, description_df, \
-    reference_group, experimental_group, \
-    correlation="spearman", alternative="two-sided", \
-    interaction=None, \
-    repeats_number=None, \
-    output_dir=None, \
+    data_df, description_df,
+    reference_group, experimental_group,
+    correlation="spearman", alternative="two-sided",
+    interaction=None,
+    repeats_number=None,
+    output_dir=None,
     process_number=None
 ):
     if process_number is None:
@@ -130,9 +130,9 @@ def ztest(
         return output_df
 
 def _ztest(
-    data_df, description_df, interaction_df, \
-    reference_group, experimental_group, \
-    correlation, alternative, \
+    data_df, description_df, interaction_df,
+    reference_group, experimental_group,
+    correlation, alternative,
     repeats_number, process_number
 ):
     if (correlation != "spearman"):
