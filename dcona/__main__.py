@@ -1,79 +1,65 @@
 def ztest_cli(config_path):
     import pandas as pd
-    import dcona.core.extern
-    import dcona.core.utils
-    import dcona.lib.wrapped_pipelines as pipelines
-    DATA_PATH, DESCRIPTION_PATH, OUTPUT_DIR_PATH, INTERACTION_PATH, \
+    
+    from .core import utils as cutils
+    import .lib
+
+    data_path, description_path, output_dir_path, interaction_path, \
     reference_group, experimental_group, correlation, \
-    alternative, score, repeats, process_number = \
-    dcona.core.utils.read_json(config_path)
+    alternative, score, repeats_number, process_number = \
+    cutils.read_json(config_path)
     
-    dcona.core.utils.check_directory_existence(OUTPUT_DIR_PATH)
+    cutils.check_directory_existence(output_dir_path)
     
-    data_df = pd.read_csv(DATA_PATH, sep=",", index_col=0)
-    description_df = pd.read_csv(DESCRIPTION_PATH, sep=",")
-    if INTERACTION_PATH:
-        interaction_df = pd.read_csv(INTERACTION_PATH, sep=",")
+    data_df = pd.read_csv(data_path, sep=",", index_col=0)
+    description_df = pd.read_csv(description_path, sep=",")
+    if interaction_path:
+        interaction_df = pd.read_csv(interaction_path, sep=",")
     else:
         interaction_df = None
     
-    sorted_indexes, indexes, \
-    df_indexes, ref_corrs, \
-    ref_pvalues, exp_corrs, \
-    exp_pvalues, stat, pvalue, \
-    boot_pvalue, adjusted_pvalue = \
-    pipelines.wrapped_ztest(data_df, description_df, interaction_df, \
-                            reference_group, experimental_group, correlation, \
-                            alternative, score, repeats, process_number)
-    
-    df_template = pd.DataFrame(columns=[
-            "Source", "Target", "RefCorr", "RefPvalue", 
-            "ExpCorr", "ExpPvalue", "Statistic",
-            "Pvalue", "Bootpv", "FDR"
-    ])
-    df_columns = [
-            ref_corrs, ref_pvalues,
-            exp_corrs, exp_pvalues, stat,
-            pvalue, boot_pvalue, adjusted_pvalue
-    ]
-
-    path_to_file = OUTPUT_DIR_PATH.rstrip("/") + "/{}_ztest.csv".format(correlation)
-    dcona.core.utils.save_by_chunks(
-            sorted_indexes, 
-            df_indexes, df_template, df_columns,
-            path_to_file,
-            # index_transform=None
-            index_transform=indexes
+    result = lib.ztest(
+        data_df, description_df,
+        reference_group, experimental_group,
+        correlation, alternative,
+        interaction=interaction_df,
+        repeats_number=repeats_number,
+        output_dir=output_dir_path,
+        process_number=process_number
     )
-    print(f"File saved at: {path_to_file}")
-    
+
+    if not (result is None):        
+        path_to_file = output_dir_path.rstrip("/") + "/{}_ztest.csv".format(correlation)
+        result.to_csv(path_to_file, sep=",", index=None)
+        print(f"File saved at: {path_to_file}") 
     
 def zscore_cli(config_path):   
     import pandas as pd
-    import dcona.core.extern
-    import dcona.core.utils
-    import dcona.lib.wrapped_pipelines as pipelines
-    DATA_PATH, DESCRIPTION_PATH, OUTPUT_DIR_PATH, INTERACTION_PATH, \
+    
+    from .core import utils as cutils
+    import .lib
+
+    data_path, description_path, output_dir_path, interaction_path, \
     reference_group, experimental_group, correlation, \
     alternative, score, repeats, process_number = \
     dcona.core.utils.read_json(config_path)
     
-    dcona.core.utils.check_directory_existence(OUTPUT_DIR_PATH)
+    dcona.core.utils.check_directory_existence(output_dir_path)
     
     data_df = pd.read_csv(DATA_PATH, sep=",", index_col=0)
-    description_df = pd.read_csv(DESCRIPTION_PATH, sep=",")
-    if INTERACTION_PATH:
-        interaction_df = pd.read_csv(INTERACTION_PATH, sep=",")
+    description_df = pd.read_csv(description_path, sep=",")
+    if interaction_path:
+        interaction_df = pd.read_csv(interaction_path, sep=",")
     else:
         interaction_df = None
     
-    result = pipelines.wrapped_zscore(data_df, description_df, interaction_df, \
+    result = lib.zscore(data_df, description_df, interaction_df, \
                                       reference_group, experimental_group, correlation, \
                                       alternative, score, repeats, process_number)
                             
     output_df = pipelines.zscore_to_df(*result)
     
-    path_to_file = OUTPUT_DIR_PATH.rstrip("/") + \
+    path_to_file = output_dir_path.rstrip("/") + \
                    "/{}_{}_{}_zscore.csv".format(correlation, score, alternative)
     output_df.to_csv(
             path_to_file,
@@ -85,20 +71,28 @@ def zscore_cli(config_path):
 
 def main():
     import argparse
-    parser = argparse.ArgumentParser(prog='dcona',
-                                     description='DCoNA (Differential Correlation Network Analysis)',
-                                     epilog='https://github.com/zhiyanov/DCoNA')
-    parser.add_argument("tool", choices=['ztest', 'zscore', 'hypergeom'],
-                        help="One of DCoNA tools")
-    parser.add_argument("config_path",
-                        help="Path to JSON config file")
+
+    parser = argparse.ArgumentParser(
+        prog='dcona',
+        description='DCoNA (Differential Correlation Network Analysis)',
+        epilog='https://github.com/zhiyanov/DCoNA'
+    )
+    parser.add_argument(
+        "tool", choices=['ztest', 'zscore', 'hypergeom'],
+        help="One of DCoNA tools"
+    )
+    parser.add_argument(
+        "config_path",
+        help="Path to JSON config file"
+    )
+
     args = parser.parse_args()
-
-
     if args.tool=="ztest":
         ztest_cli(args.config_path)
     elif args.tool=="zscore":
         zscore_cli(args.config_path)
+    else:
+        hypergeom_cli(args.config_path)
 
 if __name__=="__main__":
     main()
