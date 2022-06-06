@@ -6,8 +6,6 @@ import sys
 import os
 import itertools
 
-from .. import extern
-
 BOOTSTRAP_REPEATS = 10**3
 
 
@@ -51,13 +49,4 @@ def bootstrap_sample(
         if (statistic != None):
             yield statistic(*samples)
         else:
-            yield sample
-
-def creating_pairs(
-    molecules_list
-):
-    res = [(a, b) for index, a in enumerate(molecules_list) for b in molecules_list[index + 1:]]
-    df = pd.DataFrame(res, columns=["Source", "Target"])
-    
-    return df
-    
+            yield sample 

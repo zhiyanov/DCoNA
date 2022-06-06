@@ -2,9 +2,9 @@ import numpy as np
 import pandas as pd
 import scipy.stats
 
-from ..core import extern as cextern
-from ..core import utils as cutils
+from ..core import extern
 from . import utils
+from . import dump
 
 
 def ztest(
@@ -54,7 +54,7 @@ def ztest(
     )
     
     if output_dir:
-        cutils.check_directory_existence(output_dir)
+        dump.check_directory_existence(output_dir)
         
         if repeats_number > 0: 
             df_template = pd.DataFrame(columns=[
@@ -83,7 +83,7 @@ def ztest(
 
 
         path_to_file = output_dir.rstrip("/") + f"/{correlation}_ztest.csv"
-        cutils.save_by_chunks(
+        dump.save_by_chunks(
             sorted_indexes,
             df_indexes, df_template, df_columns,
             path_to_file,
@@ -97,7 +97,7 @@ def ztest(
         target_indexes = []
 
         for ind in sorted_indexes:
-            s, t = cextern.paired_index(ind, len(df_indexes))
+            s, t = extern.paired_index(ind, len(df_indexes))
             source_indexes.append(df_indexes[s])
             target_indexes.append(df_indexes[t])
         
@@ -168,7 +168,7 @@ def _ztest(
     ref_corrs, ref_pvalues, \
     exp_corrs, exp_pvalues, \
     stat, pvalue, boot_pvalue = \
-    cextern.ztest_pipeline(
+    extern.ztest_pipeline(
         data_df,
         reference_indexes,
         experimental_indexes,

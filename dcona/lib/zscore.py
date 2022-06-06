@@ -2,9 +2,9 @@ import numpy as np
 import pandas as pd
 import scipy.stats
 
-from ..core import extern as cextern
-from ..core import utils as cutils
+from ..core import extern
 from . import utils
+from . import dump
 
 
 def zscore(
@@ -56,7 +56,7 @@ def zscore(
     output_df = output_df.sort_values(["AdjPvalue", "Pvalue"])
                             
     if output_dir:
-        cutils.check_directory_existence(output_dir)
+        dump.check_directory_existence(output_dir)
         path_to_file = output_dir.rstrip("/") + \
             f"/{correlation}_{score}_{alternative}_zscore.csv"
         output_df.to_csv(
@@ -107,7 +107,7 @@ def _zscore(
 
     print("Computation of z-scores")
     sources, scores, pvalues = \
-    cextern.score_pipeline(
+    extern.score_pipeline(
         data_df,
         reference_indexes,
         experimental_indexes,
@@ -127,5 +127,5 @@ def _zscore(
     adjusted_pvalue = adjusted_pvalue.flatten()
     
     return data_df, sources, scores, \
-            pvalues, adjusted_pvalue
+        pvalues, adjusted_pvalue
 

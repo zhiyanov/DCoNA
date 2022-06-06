@@ -32,7 +32,7 @@ def ztest_pipeline(
     source_indexes=None,
     target_indexes=None,
     correlation="spearman",
-    correlation_alternative=None,
+    correlation_alternative=False,
     alternative="two-sided",
     repeats_num=1000,
     process_num=1,
@@ -238,8 +238,4 @@ def score_pipeline(
 
         indexes = np.arange(data.shape[0], dtype="int32")
     
-    return (
-        indexes,
-        scores,
-        pvalues
-    )
+    return indexes, scores, pvalues

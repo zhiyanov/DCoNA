@@ -1,15 +1,17 @@
 def ztest_cli(config_path):
-    import pandas as pd
-    
-    from .core import utils as cutils
-    import .lib
+    import pandas as pd 
+    from . import lib
 
-    data_path, description_path, output_dir_path, interaction_path, \
-    reference_group, experimental_group, correlation, \
-    alternative, score, repeats_number, process_number = \
-    cutils.read_json(config_path)
+    data_path, description_path, \
+    reference_group, experimental_group, \
+    correlation, alternative, score, \
+    interaction_path, \
+    repeats_number, \
+    output_dir_path, \
+    process_number = \
+    lib.utils.read_json(config_path)
     
-    cutils.check_directory_existence(output_dir_path)
+    lib.dump.check_directory_existence(output_dir_path)
     
     data_df = pd.read_csv(data_path, sep=",", index_col=0)
     description_df = pd.read_csv(description_path, sep=",")
@@ -28,46 +30,91 @@ def ztest_cli(config_path):
         process_number=process_number
     )
 
-    if not (result is None):        
+    if not (result is None): 
         path_to_file = output_dir_path.rstrip("/") + "/{}_ztest.csv".format(correlation)
         result.to_csv(path_to_file, sep=",", index=None)
         print(f"File saved at: {path_to_file}") 
     
 def zscore_cli(config_path):   
     import pandas as pd
-    
-    from .core import utils as cutils
-    import .lib
+    from . import lib
 
-    data_path, description_path, output_dir_path, interaction_path, \
-    reference_group, experimental_group, correlation, \
-    alternative, score, repeats, process_number = \
-    dcona.core.utils.read_json(config_path)
+    data_path, description_path, \
+    reference_group, experimental_group, \
+    correlation, alternative, score, \
+    interaction_path, \
+    repeats_number, \
+    output_dir_path, \
+    process_number = \
+    lib.utils.read_json(config_path)
     
-    dcona.core.utils.check_directory_existence(output_dir_path)
+    lib.dump.check_directory_existence(output_dir_path)
     
-    data_df = pd.read_csv(DATA_PATH, sep=",", index_col=0)
+    data_df = pd.read_csv(data_path, sep=",", index_col=0)
     description_df = pd.read_csv(description_path, sep=",")
     if interaction_path:
         interaction_df = pd.read_csv(interaction_path, sep=",")
     else:
         interaction_df = None
     
-    result = lib.zscore(data_df, description_df, interaction_df, \
-                                      reference_group, experimental_group, correlation, \
-                                      alternative, score, repeats, process_number)
+    result = lib.zscore(
+        data_df, description_df,
+        reference_group, experimental_group,
+        correlation=correlation,
+        score=score,
+        alternative=alternative,
+        interaction=interaction_df,
+        repeats_number=repeats_number,
+        output_dir=output_dir_path,
+        process_number=process_number
+    )
                             
-    output_df = pipelines.zscore_to_df(*result)
+    if not (result is None): 
+        path_to_file = output_dir_path.rstrip("/") + \
+            "/{}_{}_{}_zscore.csv".format(
+                correlation, score, alternative)
+        result.to_csv(path_to_file, sep=",", index=None)
+        print(f"File saved at: {path_to_file}") 
+
+def hypergeom_cli(config_path):   
+    import pandas as pd
+    from . import lib
+
+    data_path, description_path, \
+    reference_group, experimental_group, \
+    correlation, alternative, score, \
+    interaction_path, \
+    repeats_number, \
+    output_dir_path, \
+    process_number = \
+    lib.utils.read_json(config_path)
     
-    path_to_file = output_dir_path.rstrip("/") + \
-                   "/{}_{}_{}_zscore.csv".format(correlation, score, alternative)
-    output_df.to_csv(
+    lib.dump.check_directory_existence(output_dir_path)
+
+    path_to_file = output_dir.rstrip("/") + f"/{correlation}_ztest.csv"
+    ztest_df = pd.read_csv(path_to_file, sep=",")
+    
+    if interaction_path:
+        oriented = True
+    else:
+        oriented = False
+
+    result = lib.hypergeom(
+        ztest_df,
+        alternative=alternative,
+        oriented=oriented,
+        output_dir=output_dir_path
+    )
+                            
+    if not (result is None): 
+        path_to_file = output_dir.rstrip("/") + \
+            f"/{alternative}_hypergeom.csv"
+        result.to_csv(
             path_to_file,
             sep=",",
             index=None
-    )
-    print(f"File saved at: {path_to_file}")
-
+        )
+        print(f"File saved at: {path_to_file}") 
 
 def main():
     import argparse

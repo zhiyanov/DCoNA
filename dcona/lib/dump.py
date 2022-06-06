@@ -3,7 +3,7 @@ import sys
 import os
 import json
 
-from .. import extern
+from ..core import extern as cextern
 
 CHUNK_LENGTH = 10**5
 
@@ -46,7 +46,7 @@ def save_by_chunks(
             if not (index_transform is None):
                 ind = index_transform[ind]
 
-            s, t = extern.paired_index(ind, len(df_indexes))
+            s, t = cextern.paired_index(ind, len(df_indexes))
             source_indexes.append(df_indexes[s])
             target_indexes.append(df_indexes[t])
         
@@ -67,33 +67,3 @@ def save_by_chunks(
         
         MODE, HEADER = 'a', False
 
-def read_json(
-    path_to_json
-):
-    config = json.load(open(path_to_json, "r"))
-    DATA_PATH = config["data_path"]
-    DESCRIPTION_PATH = config["description_path"]
-    OUTPUT_DIR_PATH = config["output_dir_path"]
-    REFERENCE_GROUP = config["reference_group"]
-    EXPERIMENTAL_GROUP = config["experimental_group"]
-    
-    CORRELATION = config["correlation"]
-    ALTERNATIVE = config["alternative"]
-    SCORE = config["score"]
-    
-    REPEATS_NUMBER = config["repeats_number"]
-    PROCESS_NUMBER = config["process_number"]
-        
-    if ("interaction_path" in config) and (config["interaction_path"] != ""):
-        INTERACTION_PATH = config["interaction_path"]
-    else:
-        INTERACTION_PATH = None
-        
-    if ("score" in config) and (config["score"] != ""):
-        SCORE = config["score"]
-    else:
-        SCORE = None
-    
-    return DATA_PATH, DESCRIPTION_PATH, OUTPUT_DIR_PATH, INTERACTION_PATH, \
-           REFERENCE_GROUP, EXPERIMENTAL_GROUP, CORRELATION, \
-           ALTERNATIVE, SCORE, REPEATS_NUMBER, PROCESS_NUMBER

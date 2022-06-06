@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import scipy.stats
 
-from ..core import utils as cutils
+from . import dump
 
 FDR_THRESHOLD = 0.05
 
@@ -65,7 +65,7 @@ def hypergeom(
     output_df["AdjPvalue"] = adjusted_pvalue
     
     if output_dir:
-        cutils.check_directory_existence(output_dir)
+        dump.check_directory_existence(output_dir)
         path_to_file = output_dir.rstrip("/") + \
             f"/{alternative}_hypergeom.csv"
         output_df.to_csv(
