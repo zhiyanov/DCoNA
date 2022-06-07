@@ -1,7 +1,6 @@
 import tqdm
 import sys
 import os
-import json
 
 from ..core import extern as cextern
 

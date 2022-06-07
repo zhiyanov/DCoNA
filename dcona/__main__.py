@@ -9,7 +9,7 @@ def ztest_cli(config_path):
     repeats_number, \
     output_dir_path, \
     process_number = \
-    lib.utils.read_json(config_path)
+    lib.utils.read_config(config_path)
     
     lib.dump.check_directory_existence(output_dir_path)
     
@@ -46,7 +46,7 @@ def zscore_cli(config_path):
     repeats_number, \
     output_dir_path, \
     process_number = \
-    lib.utils.read_json(config_path)
+    lib.utils.read_config(config_path)
     
     lib.dump.check_directory_existence(output_dir_path)
     
@@ -87,7 +87,7 @@ def hypergeom_cli(config_path):
     repeats_number, \
     output_dir_path, \
     process_number = \
-    lib.utils.read_json(config_path)
+    lib.utils.read_config(config_path)
     
     lib.dump.check_directory_existence(output_dir_path)
 

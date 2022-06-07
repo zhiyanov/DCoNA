@@ -1,6 +1,7 @@
 import itertools
 import pandas as pd
 import numpy as np
+import json
 
 
 def generate_pairs(objects):    

@@ -38,15 +38,10 @@ def ztest(
         if repeats_number is None:
             repeats_number = 0
     
-    return sorted_indexes, indexes, df_indexes, \
-        ref_corrs, ref_pvalues, exp_corrs, exp_pvalues, \
-        stat, pvalue, adjusted_pvalue, \
-
     sorted_indexes, indexes, df_indexes, \
     ref_corrs, ref_pvalues, exp_corrs, exp_pvalues, \
     stat, pvalue, adjusted_pvalue, \
-    boot_pvalue = \
-    _ztest(
+    boot_pvalue = _ztest(
         data_df, description_df, interaction_df, \
         reference_group, experimental_group, \
         correlation, alternative, \
@@ -228,5 +223,5 @@ def _ztest(
     return sorted_indexes, indexes, df_indexes, \
         ref_corrs, ref_pvalues, exp_corrs, exp_pvalues, \
         stat, pvalue, adjusted_pvalue, \
-        boot_pv
+        boot_pvalue
 

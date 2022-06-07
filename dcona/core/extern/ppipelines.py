@@ -12,6 +12,7 @@ from .pcorrelations import \
 from .putils import \
     reorder
 
+
 def get_num_ind(indexes, *args):
     index_hash = {
         ind: num for num, ind in enumerate(indexes)
