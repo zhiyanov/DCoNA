@@ -15,6 +15,7 @@
 
 #include "../pipelines/pipelines.h"
 #include "../utils/utils.h"
+#include "../tqdm/tqdm.h"
 
 namespace py = pybind11;
 
@@ -107,7 +108,8 @@ std::tuple<
     // Bootstrap pvalue computations    
     float *dpr, *rcp, *ecp, *sp, *pp;
     int *rip, *eip;
-    for (int r = 0; r < repeats_number + 1; ++r) {
+    // for (int r = 0; r < repeats_number + 1; ++r) {
+    for (int r : tqdm::range(repeats_number + 1)) {
         if (r == 0) {
             rcp = ref_corrs_ptr;
             ecp = exp_corrs_ptr;
@@ -117,8 +119,8 @@ std::tuple<
             rip = ref_ind_ptr;
             eip = exp_ind_ptr;
         } else {
-            std::cout << "Bootstrap iteration: " << r << "/"
-                << repeats_number << "\n";
+            // std::cout << "Bootstrap iteration: " << r << "/"
+            //     << repeats_number << "\n";
             std::shuffle(indexes.begin(), indexes.end(), random_gen);
             for (int i = 0; i < ref_ind_size; ++i) {
                 boot_ref_ind_ptr[i] = indexes[i];
@@ -369,7 +371,8 @@ std::tuple<
     float *dpr, *rcp, *ecp, *sp, *pp;
     int *rip, *eip;
     float *scp;
-    for (int r = 0; r < repeats_number + 1; ++r) {
+    // for (int r = 0; r < repeats_number + 1; ++r) {
+    for (int r : tqdm::range(repeats_number + 1)) {
         if (r == 0) {
             rcp = boot_ref_corrs_ptr;
             ecp = boot_exp_corrs_ptr;
@@ -381,8 +384,8 @@ std::tuple<
 
             scp = scores_ptr;
         } else {
-            std::cout << "Bootstrap iteration: " << r << "/"
-                << repeats_number << "\n";
+            // std::cout << "Bootstrap iteration: " << r << "/"
+            //     << repeats_number << "\n";
             std::shuffle(indexes.begin(), indexes.end(), random_gen);
             for (int i = 0; i < ref_ind_size; ++i) {
                 boot_ref_ind_ptr[i] = indexes[i];
@@ -598,7 +601,8 @@ std::tuple<
     // Bootstrap pvalue computations    
     float *dpr, *rcp, *ecp, *sp, *pp;
     int *rip, *eip;
-    for (int r = 0; r < repeats_number + 1; ++r) {
+    // for (int r = 0; r < repeats_number + 1; ++r) {
+    for (int r : tqdm::range(repeats_number + 1)) {
         if (r == 0) {
             rcp = ref_corrs_ptr;
             ecp = exp_corrs_ptr;
@@ -608,8 +612,8 @@ std::tuple<
             rip = ref_ind_ptr;
             eip = exp_ind_ptr;
         } else {
-            std::cout << "Bootstrap iteration: " << r << "/"
-                << repeats_number << "\n";
+            // std::cout << "Bootstrap iteration: " << r << "/"
+            //     << repeats_number << "\n";
             std::shuffle(indexes.begin(), indexes.end(), random_gen);
             for (int i = 0; i < ref_ind_size; ++i) {
                 boot_ref_ind_ptr[i] = indexes[i];
@@ -621,7 +625,7 @@ std::tuple<
             rcp = boot_ref_corrs_ptr;
             ecp = boot_exp_corrs_ptr;
             sp  = boot_stat_ptr;
-            pp  = (float *) nullptr;
+            pp  = nullptr;
             
             rip = boot_ref_ind_ptr;
             eip = boot_exp_ind_ptr;
@@ -821,7 +825,8 @@ std::tuple<
     float *dpr, *rcp, *ecp, *sp, *pp;
     int *rip, *eip;
     float *scp;
-    for (int r = 0; r < repeats_number + 1; ++r) {
+    // for (int r = 0; r < repeats_number + 1; ++r) {
+    for (int r : tqdm::range(repeats_number + 1)) {
         if (r == 0) {
             rcp = boot_ref_corrs_ptr;
             ecp = boot_exp_corrs_ptr;
@@ -833,8 +838,8 @@ std::tuple<
 
             scp = scores_ptr;
         } else {
-            std::cout << "Bootstrap iteration: " << r << "/"
-                << repeats_number << "\n";
+            // std::cout << "Bootstrap iteration: " << r << "/"
+            //     << repeats_number << "\n";
             std::shuffle(indexes.begin(), indexes.end(), random_gen);
             for (int i = 0; i < ref_ind_size; ++i) {
                 boot_ref_ind_ptr[i] = indexes[i];
