@@ -1,8 +1,8 @@
 [submodule "native/extern/pybind11"]
-	path = dcona/native/extern/pybind11
+    path = dcona/native/extern/pybind11
     url = https://github.com/pybind/pybind11.git
     branch = stable
 [submodule "native/extern/tqdm.cpp"]
-	path = dcona/native/extern/tqdm.cpp
+    path = dcona/native/extern/tqdm.cpp
     url = https://github.com/tqdm/tqdm.cpp.git
     branch = master
