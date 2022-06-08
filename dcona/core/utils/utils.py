@@ -1,10 +1,10 @@
+import pandas as pd
 import numpy as np
 import math
 import tqdm
 import sys
 import os
-
-import core.extern
+import itertools
 
 BOOTSTRAP_REPEATS = 10**3
 
@@ -49,5 +49,4 @@ def bootstrap_sample(
         if (statistic != None):
             yield statistic(*samples)
         else:
-            yield sample
-
+            yield sample 

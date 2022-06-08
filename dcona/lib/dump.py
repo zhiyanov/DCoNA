@@ -2,17 +2,21 @@ import tqdm
 import sys
 import os
 
-import core.extern
+from ..core import extern as cextern
 
-CHUNK_LENGTH = 10**6
+CHUNK_LENGTH = 10**5
 
 
 def check_directory_existence(
     directory_path,
-    message="Output directory does not exist"
+    message_isdir="Output directory does not exist",
+    message_access="Permission denied (output directory)"
 ):
     if os.path.isdir(directory_path) == False:
-        print(message)
+        print(message_isdir)
+        sys.exit()
+    if os.access(directory_path, os.W_OK | os.X_OK) == False:
+        print(message_access)
         sys.exit()
 
 def save_by_chunks(
@@ -22,13 +26,12 @@ def save_by_chunks(
     index_transform=None,
     chunk_length=CHUNK_LENGTH
 ):
-    df_inds = []
-    rows = len(indexes)
     MODE, HEADER = 'w', True
     
     # Splitting rows into chunks
     chunk_number = (len(indexes) + chunk_length - 1) // chunk_length
-    for i in tqdm.tqdm(range(chunk_number), desc="Save progress"):
+
+    for i in tqdm.tqdm(range(chunk_number), desc="Save progress: ", ascii=True):
         start = i * chunk_length
         end = (i + 1) * chunk_length
         if i >= chunk_number - 1:
@@ -42,7 +45,7 @@ def save_by_chunks(
             if not (index_transform is None):
                 ind = index_transform[ind]
 
-            s, t = core.extern.paired_index(ind, len(df_indexes))
+            s, t = cextern.paired_index(ind, len(df_indexes))
             source_indexes.append(df_indexes[s])
             target_indexes.append(df_indexes[t])
         
@@ -62,3 +65,4 @@ def save_by_chunks(
         )
         
         MODE, HEADER = 'a', False
+

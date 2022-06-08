@@ -2,8 +2,8 @@
 
 mkdir build
 cd build
-cmake ../native
+cmake ../dcona/native
 make
-cp *.so ../core/extern/
+cp *.so ../dcona/core/extern/
 cd ..
 rm -rf build
