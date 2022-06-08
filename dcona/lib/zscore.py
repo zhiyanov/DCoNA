@@ -105,7 +105,7 @@ def _zscore(
         "Sample"
     ].to_list()
 
-    print("Computation of z-scores")
+    print("Z-score computation")
     sources, scores, pvalues = \
     extern.score_pipeline(
         data_df,
@@ -120,7 +120,7 @@ def _zscore(
         process_num=process_number
     )
 
-    print("Computation of adjusted p-value")
+    print("Adjusted p-value computation")
     adjusted_pvalue = pvalues * len(pvalues) / \
         scipy.stats.rankdata(pvalues)
     adjusted_pvalue[adjusted_pvalue > 1] = 1
