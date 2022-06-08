@@ -15,20 +15,20 @@ def hypergeom(
 ):
     if alternative == "less":
         report_df = ztest_df[
-            (report_df["AdjPvalue"] < FDR_THRESHOLD) &
-            (report_df["Statistic"] < 0)
+            (ztest_df["AdjPvalue"] < FDR_THRESHOLD) &
+            (ztest_df["Statistic"] < 0)
         ]
     elif alternative == "greater":
         report_df = ztest_df[
-            (report_df["AdjPvalue"] < FDR_THRESHOLD) &
-            (report_df["Statistic"] > 0)
+            (ztest_df["AdjPvalue"] < FDR_THRESHOLD) &
+            (ztest_df["Statistic"] > 0)
         ]
     else:
-        report_df = ztest_df[report_df["AdjPvalue"] < FDR_THRESHOLD]
+        report_df = ztest_df[ztest_df["AdjPvalue"] < FDR_THRESHOLD]
     
     if oriented:
         report_occurrence = get_occurrence(list(report_df["Source"]))
-        initial_occurrence = get_occurrence(list(data_df["Source"]))
+        initial_occurrence = get_occurrence(list(ztest_df["Source"]))
     else:
         ll = list(report_df["Source"])
         ll.extend(list(report_df["Target"]))

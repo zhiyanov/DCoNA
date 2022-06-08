@@ -31,7 +31,8 @@ def ztest_cli(config_path):
     )
 
     if not (result is None): 
-        path_to_file = output_dir_path.rstrip("/") + "/{}_ztest.csv".format(correlation)
+        path_to_file = output_dir_path.rstrip("/") + \
+            f"/{correlation}_{alternative}_ztest.csv"
         result.to_csv(path_to_file, sep=",", index=None)
         print(f"File saved at: {path_to_file}") 
     
@@ -71,8 +72,7 @@ def zscore_cli(config_path):
                             
     if not (result is None): 
         path_to_file = output_dir_path.rstrip("/") + \
-            "/{}_{}_{}_zscore.csv".format(
-                correlation, score, alternative)
+            f"/{correlation}_{score}_{alternative}_zscore.csv"
         result.to_csv(path_to_file, sep=",", index=None)
         print(f"File saved at: {path_to_file}") 
 
@@ -91,7 +91,8 @@ def hypergeom_cli(config_path):
     
     lib.dump.check_directory_existence(output_dir_path)
 
-    path_to_file = output_dir.rstrip("/") + f"/{correlation}_ztest.csv"
+    path_to_file = output_dir_path.rstrip("/") + \
+        f"/{correlation}_{alternative}_ztest.csv"
     ztest_df = pd.read_csv(path_to_file, sep=",")
     
     if interaction_path:

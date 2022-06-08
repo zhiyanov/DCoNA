@@ -77,7 +77,7 @@ def ztest(
             ]
 
 
-        path_to_file = output_dir.rstrip("/") + f"/{correlation}_ztest.csv"
+        path_to_file = output_dir.rstrip("/") + f"/{correlation}_{alternative}_ztest.csv"
         dump.save_by_chunks(
             sorted_indexes,
             df_indexes, df_template, df_columns,
@@ -159,7 +159,7 @@ def _ztest(
         "Sample"
     ].to_list()
 
-    print("Computation of z-tests")
+    print("Z-test computation")
     ref_corrs, ref_pvalues, \
     exp_corrs, exp_pvalues, \
     stat, pvalue, boot_pvalue = \
@@ -176,7 +176,7 @@ def _ztest(
         correlation_alternative="two-sided"
     )
 
-    print("Computation of adjusted p-value")
+    print("Adjusted p-value computation")
     adjusted_pvalue = pvalue * len(pvalue) / \
         scipy.stats.rankdata(pvalue)
     adjusted_pvalue[adjusted_pvalue > 1] = 1
@@ -209,16 +209,13 @@ def _ztest(
     adjusted_pvalue = adjusted_pvalue[indexes]
     df_indexes = data_df.index.to_numpy()
 
-    print("Creating (adj-pv, p-value) array")
     FDR_pvalue = np.core.records.fromarrays(
         [adjusted_pvalue, pvalue],
         names='FDR, pvalue'
     )
 
-    print("Sorting (adj-pv, p-value) array")
     sorted_indexes = np.argsort(FDR_pvalue, order=('FDR', 'pvalue'))
     del FDR_pvalue
-    print("(adj-pv, p-value) array is sorted")
 
     return sorted_indexes, indexes, df_indexes, \
         ref_corrs, ref_pvalues, exp_corrs, exp_pvalues, \
