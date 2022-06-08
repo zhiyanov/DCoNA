@@ -1,0 +1,15 @@
+{
+	"data_path": "./example/data/data.csv",
+	"description_path": "./example/data/description.csv",
+	"interaction_path": "./example/data/interactions.csv",
+	"output_dir_path": "./example/output/",
+	
+	"reference_group": "Normal",
+	"experimental_group": "Tumor",
+
+	"correlation": "spearman",
+	"alternative": "two-sided",
+	"score": "mean",
+	"repeats_number": 100,
+	"process_number": 2
+}
