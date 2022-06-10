@@ -113,6 +113,10 @@ std::tuple<
     std::cout << "Permutation progress: ";
     progressbar bar(repeats_number + 1);
     for (int r = 0; r < repeats_number + 1; ++r) {
+        if (PyErr_CheckSignals() != 0) {
+            throw py::error_already_set();
+        }
+
         if (r == 0) {
             rcp = ref_corrs_ptr;
             ecp = exp_corrs_ptr;
@@ -379,6 +383,10 @@ std::tuple<
     std::cout << "Permutation progress: ";
     progressbar bar(repeats_number + 1);
     for (int r = 0; r < repeats_number + 1; ++r) {
+        if (PyErr_CheckSignals() != 0) {
+            throw py::error_already_set();
+        }
+
         if (r == 0) {
             rcp = boot_ref_corrs_ptr;
             ecp = boot_exp_corrs_ptr;
@@ -612,6 +620,10 @@ std::tuple<
     std::cout << "Permutation progress: ";
     progressbar bar(repeats_number + 1);
     for (int r = 0; r < repeats_number + 1; ++r) {
+        if (PyErr_CheckSignals() != 0) {
+            throw py::error_already_set();
+        }
+
         if (r == 0) {
             rcp = ref_corrs_ptr;
             ecp = exp_corrs_ptr;
@@ -839,6 +851,10 @@ std::tuple<
     std::cout << "Permutation progress: ";
     progressbar bar(repeats_number + 1);
     for (int r = 0; r < repeats_number + 1; ++r) {
+        if (PyErr_CheckSignals() != 0) {
+            throw py::error_already_set();
+        }
+
         if (r == 0) {
             rcp = boot_ref_corrs_ptr;
             ecp = boot_exp_corrs_ptr;
