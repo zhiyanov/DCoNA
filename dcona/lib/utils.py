@@ -44,7 +44,7 @@ def read_config(
     if ("interaction_path" in config) and (config["interaction_path"] != ""):
         interaction_path = config["interaction_path"]
     else:
-        interaction_path = none
+        interaction_path = None
         
     if ("score" in config) and (config["score"] != ""):
         score = config["score"]
