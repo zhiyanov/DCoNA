@@ -2,9 +2,15 @@ name: Build
 
 on: 
     push:
-        branches: [ shell ]
+        branches: 
+          - main
+        tags: 
+          - '*'
     pull_request:
-        branches: [ shell ]
+        branches: 
+          - main
+        tags: 
+          - '*'
     workflow_dispatch:
 
 
@@ -89,7 +95,6 @@ jobs:
           path: dist
           
       - name: Publish package
-        #uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
         uses: pypa/gh-action-pypi-publish@master
         with:
           user: __token__

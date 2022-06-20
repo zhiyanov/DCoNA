@@ -1,8 +1,11 @@
 try:
     import pybind11
-    from pybind11.setup_helpers import Pybind11Extension
 except ImportError:
-    from setuptools import Extension as Pybind11Extension
+    # Install pybind11 if building package without isolation
+    import subprocess
+    import sys
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "pybind11"])
+    import pybind11
 
 from setuptools import setup, Extension, find_packages
 
@@ -12,7 +15,7 @@ with open("README.md", "r") as readme_file:
 requirements = ['pybind11', 'pandas', 'numpy', 'scipy', 'tqdm']
 
 
-__version__ = "0.0.9"
+__version__ = "0.0.10"
 
 
 src = 'dcona/native/src/'
