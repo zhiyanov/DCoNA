@@ -138,15 +138,19 @@ inline void progressbar::update() {
     int perc = 0;
 
     // compute percentage, if did not change, do nothing and return
-    perc = progress*100./(n_cycles-1);
+    perc = progress * 100 / (n_cycles - 1);
     if (perc < last_perc) return;
 
     // update percentage each unit
     if (perc == last_perc + 1) {
         // erase the correct  number of characters
-        if      (perc <= 10)                std::cout << "\b\b"   << perc << '%';
-        else if (perc  > 10 and perc < 100) std::cout << "\b\b\b" << perc << '%';
-        else if (perc == 100)               std::cout << "\b\b\b" << perc << '%';
+        if (perc <= 10) {
+            std::cout << "\b\b"   << perc << '%';
+        } else if (perc  > 10 and perc < 100) {
+            std::cout << "\b\b\b" << perc << '%';
+        } else if (perc == 100) {
+            std::cout << "\b\b\b" << perc << '%';
+        }
     }
     if (do_show_bar == true) {
         // update bar every ten units
