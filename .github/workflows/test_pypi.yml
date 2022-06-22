@@ -5,6 +5,8 @@ on:
   push:
     paths:
       - setup.py
+    tags-ignore: # Don't trigger if not release
+      - '*'
   workflow_dispatch:
 
 jobs:
