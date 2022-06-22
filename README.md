@@ -43,8 +43,8 @@ cd DCoNA
 pip install .
 ```
 
-### Downloading TCGA-PRAD dataset
-TODO: put the link here.
+### Downloading example dataset
+You can test DCoNA on [TCGA-PRAD dataset](https://eduhseru-my.sharepoint.com/:f:/g/personal/azhiyanov_hse_ru/Eo6INCepVSBDogyS5E9q-PkBDz_n_QDKUBf9kDcqHllpBw?e=kJdTdQ)
 
 ## Usage
 
