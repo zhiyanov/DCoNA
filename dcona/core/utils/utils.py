@@ -49,4 +49,4 @@ def bootstrap_sample(
         if (statistic != None):
             yield statistic(*samples)
         else:
-            yield sample 
+            yield samples

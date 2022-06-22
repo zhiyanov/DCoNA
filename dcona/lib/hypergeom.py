@@ -34,8 +34,8 @@ def hypergeom(
         ll.extend(list(report_df["Target"]))
         report_occurrence = get_occurrence(ll)
 
-        ll = list(data_df["Source"])
-        ll.extend(list(data_df["Target"]))
+        ll = list(ztest_df["Source"])
+        ll.extend(list(ztest_df["Target"]))
         initial_occurrence = get_occurrence(ll)
 
     report_interaction_number = 0
@@ -76,8 +76,6 @@ def hypergeom(
 
         print(f"File saved at: {path_to_file}")
         return None
-    else:
-        return output_df
 
 def get_occurrence(array):
     occurrence = {}

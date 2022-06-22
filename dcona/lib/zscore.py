@@ -68,8 +68,8 @@ def zscore(
 
         print(f"File saved at: {path_to_file}")
         return None
-    else:
-        return output_df
+    
+    return output_df
 
 def _zscore(
     data_df, description_df, interaction_df,

@@ -88,42 +88,42 @@ def ztest(
         
         print(f"File saved at: {path_to_file}")
         return None
+
+    source_indexes = []
+    target_indexes = []
+
+    for ind in sorted_indexes:
+        s, t = extern.paired_index(ind, len(df_indexes))
+        source_indexes.append(df_indexes[s])
+        target_indexes.append(df_indexes[t])
+    
+    if repeats_number > 0:
+        output_df = pd.DataFrame(data={
+            "Source": source_indexes,
+            "Target": target_indexes,
+            "RefCorr": ref_corrs[sorted_indexes], 
+            "RefPvalue": ref_pvalues[sorted_indexes], 
+            "ExpCorr": exp_corrs[sorted_indexes], 
+            "ExpPvalue": exp_pvalues[sorted_indexes], 
+            "Statistic": stat[sorted_indexes],
+            "Pvalue": pvalue[sorted_indexes], 
+            "AdjPvalue": adjusted_pvalue[sorted_indexes],
+            "PermutePvalue": boot_pvalue[sorted_indexes] 
+        })
     else:
-        source_indexes = []
-        target_indexes = []
+        output_df = pd.DataFrame(data={
+            "Source": source_indexes,
+            "Target": target_indexes,
+            "RefCorr": ref_corrs[sorted_indexes], 
+            "RefPvalue": ref_pvalues[sorted_indexes], 
+            "ExpCorr": exp_corrs[sorted_indexes], 
+            "ExpPvalue": exp_pvalues[sorted_indexes], 
+            "Statistic": stat[sorted_indexes],
+            "Pvalue": pvalue[sorted_indexes], 
+            "AdjPvalue": adjusted_pvalue[sorted_indexes]
+        })
 
-        for ind in sorted_indexes:
-            s, t = extern.paired_index(ind, len(df_indexes))
-            source_indexes.append(df_indexes[s])
-            target_indexes.append(df_indexes[t])
-        
-        if repeats_number > 0:
-            output_df = pd.DataFrame(data={
-                "Source": source_indexes,
-                "Target": target_indexes,
-                "RefCorr": ref_corrs[sorted_indexes], 
-                "RefPvalue": ref_pvalues[sorted_indexes], 
-                "ExpCorr": exp_corrs[sorted_indexes], 
-                "ExpPvalue": exp_pvalues[sorted_indexes], 
-                "Statistic": stat[sorted_indexes],
-                "Pvalue": pvalue[sorted_indexes], 
-                "AdjPvalue": adjusted_pvalue[sorted_indexes],
-                "PermutePvalue": boot_pvalue[sorted_indexes] 
-            })
-        else:
-            output_df = pd.DataFrame(data={
-                "Source": source_indexes,
-                "Target": target_indexes,
-                "RefCorr": ref_corrs[sorted_indexes], 
-                "RefPvalue": ref_pvalues[sorted_indexes], 
-                "ExpCorr": exp_corrs[sorted_indexes], 
-                "ExpPvalue": exp_pvalues[sorted_indexes], 
-                "Statistic": stat[sorted_indexes],
-                "Pvalue": pvalue[sorted_indexes], 
-                "AdjPvalue": adjusted_pvalue[sorted_indexes]
-            })
-
-        return output_df
+    return output_df
 
 def _ztest(
     data_df, description_df, interaction_df,
