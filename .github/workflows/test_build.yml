@@ -8,6 +8,7 @@ on:
       - '*'
     paths-ignore: # Don't trigger on files
       - README.md
+      - setup.py
   workflow_dispatch:
 
 
