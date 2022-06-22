@@ -108,7 +108,7 @@ def hypergeom_cli(config_path):
     )
                             
     if not (result is None): 
-        path_to_file = output_dir.rstrip("/") + \
+        path_to_file = output_dir_path.rstrip("/") + \
             f"/{alternative}_hypergeom.csv"
         result.to_csv(
             path_to_file,

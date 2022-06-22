@@ -79,8 +79,6 @@ def hypergeom(
     else:
         return output_df
 
-    return output_df
-
 def get_occurrence(array):
     occurrence = {}
     for elem in array:

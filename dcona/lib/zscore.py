@@ -19,10 +19,10 @@ def zscore(
     if process_number is None:
         process_number = 1
 
-    # if gene names are in dataframe column, relocate them in df.index
-    # if not pd.api.types.is_number(data_df.iloc[0, 0]):
-    #     data_df = data_df.copy()
-    #     data_df.set_index(data_df.columns[0], inplace=True)
+    # If gene names are in dataframe column, relocate them to df.index
+    if not pd.api.types.is_number(data_df.iloc[0, 0]):
+        data_df = data_df.copy()
+        data_df.set_index(data_df.columns[0], inplace=True)
         
     if interaction is not None:
         if isinstance(interaction, pd.core.frame.DataFrame):
