@@ -2,6 +2,8 @@ name: Fast build for testing
 
 on: 
   push:
+    branches:
+      - '*'
     tags-ignore: # Don't trigger if not release
       - '*'
     paths-ignore: # Don't trigger on files
