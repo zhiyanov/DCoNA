@@ -28,11 +28,11 @@ def unary_array(index, base):
 
 def unary_matrix(index, base):
     index = index.astyp("int32")
-    return _unary_matrix(indx, base)
+    return _unary_matrix(index, base)
 
 def quadrate(flatten_array, index, base):
     index = np.array(index, dtype="int32")
-    flatten_array = np.array(array, dtype="float32") 
+    flatten_array = np.array(flatten_array, dtype="float32")
     return _quadrate(flatten_array, index, base)
 
 def reorder(source_indexes, target_indexes, data=None):
