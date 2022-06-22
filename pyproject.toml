@@ -1,5 +1,5 @@
 [build-system]
-requires = ["pybind11 @ git+https://github.com/pybind/pybind11.git@master", 
+requires = ["pybind11", 
 			"setuptools",
 			"wheel"]
 build-backend = "setuptools.build_meta"

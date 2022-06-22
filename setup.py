@@ -15,10 +15,8 @@ with open("README.md", "r") as readme_file:
 requirements = ['pybind11', 'pandas', 'numpy', 'scipy', 'tqdm']
 
 
-__version__ = "0.0.10"
+__version__ = "0.0.11"
 
-
-src = 'dcona/native/src/'
 
 ext_modules = [
     Extension("dcona.core.extern.utils",
@@ -83,7 +81,7 @@ setup(
     packages=find_packages(),
     install_requires=requirements,
     ext_modules=ext_modules,
-    python_requires=">=3.8",
+    python_requires=">=3.7",
     entry_points={
         'console_scripts': [
             'dcona = dcona.__main__:main',
