@@ -2,17 +2,10 @@ name: Build and deploy at PyPI
 
 # Deploy only when tag is added
 on: 
-    push:
-        branches: 
-          - main
-        tags: 
-          - '*'
-    pull_request:
-        branches: 
-          - main
-        tags: 
-          - '*'
-    workflow_dispatch:
+  push:
+    tags: 
+      - '*'
+  workflow_dispatch:
 
 
 jobs:

@@ -4,8 +4,7 @@ on:
   push:
     tags-ignore: # Don't trigger if not release
       - '*'
-    paths-ignore: # Don't trigger on files that are updated by the CI
-      - pyproject.toml
+    paths-ignore: # Don't trigger on files
       - README.md
   workflow_dispatch:
 
