@@ -3,6 +3,8 @@ name: Build and deploy at test.PyPI
 # Manually start test building
 on: 
   push:
+    branches:
+      - 'main'
     paths:
       - setup.py
     tags-ignore: # Don't trigger if not release

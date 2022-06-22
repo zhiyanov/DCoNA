@@ -8,10 +8,6 @@ TODO: put a short feature description.
   <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
   <ol>
     <li><a href="#installation">Installation</a></li>
-      <ul>
-          <li><a href="#installation-as-a-command-line-tool">Install1</a></li>
-          <li><a href="#installation-from-source-code">Install2</a></li>
-      </ul>
     <li><a href="#usage">Usage</a></li>
       <ul>
           <li><a href="#data-structure">Data structure</a></li>
@@ -35,26 +31,20 @@ TODO: put a short feature description.
 
 ## Installation
 
-### Installation as a command line tool
-TODO: installation from pip3
+### Installation using pip (recommended)
+```
+pip install dcona
+```
+### Building from source
 
-### Installation from source code
-Start with cloning the repo. It is really crucial to clone it with all the submodules as follows:
 ```
-git clone --recurse-submodules git@github.com:zhiyanov/DCoNA.git
+git clone git@github.com:zhiyanov/DCoNA.git
+cd DCoNA
+pip install .
 ```
-#### Linux (Ubuntu)
-TODO: change the example below
-First, install the necessary dependencies:
-```
-sudo apt-get install -y g++ make cmake python3-dev python3-pip python3-numpy
-sudo pip3 install cython pot
-```
-#### OS X
-All instructions are the same, except that you need to install dependencies differently, through a combination of `pip3` and `brew`.
 
-### Downloading TCGA-PRAD dataset
-TODO: put the link here.
+### Downloading example dataset
+You can test DCoNA on [TCGA-PRAD dataset](https://eduhseru-my.sharepoint.com/:f:/g/personal/azhiyanov_hse_ru/Eo6INCepVSBDogyS5E9q-PkBDz_n_QDKUBf9kDcqHllpBw?e=kJdTdQ)
 
 ## Usage
 
