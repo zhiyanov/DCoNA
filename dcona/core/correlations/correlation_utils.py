@@ -11,7 +11,7 @@ a given threshold
 
 import numpy as np
 import scipy.stats
-from .utils import \
+from ..utils import \
     bound, bootstrap_sample
 
 
