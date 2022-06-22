@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import scipy.stats
+from multiprocessing import cpu_count
 
 from ..core import extern
 from . import utils
@@ -17,7 +18,7 @@ def ztest(
     process_number=None
 ):
     if process_number is None:
-        process_number = 1
+        process_number = cpu_count()
 
     # If gene names are in dataframe column, relocate them to df.index
     if not pd.api.types.is_number(data_df.iloc[0, 0]):
