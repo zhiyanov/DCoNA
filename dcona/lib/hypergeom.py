@@ -77,6 +77,8 @@ def hypergeom(
         print(f"File saved at: {path_to_file}")
         return None
 
+    return output_df
+
 def get_occurrence(array):
     occurrence = {}
     for elem in array:
