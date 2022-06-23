@@ -3,8 +3,24 @@ TODO: what is DCoNA and why should you use it?
 TODO: put a short feature description.
 
 
-<!-- START doctoc -->
-<!-- END doctoc -->
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+## Table of Contents
+
+- [Installation](#installation)
+  - [Installation using pip (recommended)](#installation-using-pip-recommended)
+  - [Building from source (C++ compiler is needed)](#building-from-source-c-compiler-is-needed)
+  - [Downloading example dataset](#downloading-example-dataset)
+- [Usage](#usage)
+  - [Available functions](#available-functions)
+  - [Data structure](#data-structure)
+  - [Working modes](#working-modes)
+    - [Ztest](#ztest)
+    - [Hypergeom](#hypergeom)
+    - [Zscore](#zscore)
+  - [Network and exhaustive regimes](#network-and-exhaustive-regimes)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 
 ## Installation
