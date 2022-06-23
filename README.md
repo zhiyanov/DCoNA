@@ -3,30 +3,8 @@ TODO: what is DCoNA and why should you use it?
 TODO: put a short feature description.
 
 
-
-<details open="open">
-  <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
-  <ol>
-    <li><a href="#installation">Installation</a></li>
-    <li><a href="#usage">Usage</a></li>
-      <ul>
-          <li><a href="#data-structure">Data structure</a></li>
-          <li><a href="#Working-modes">Working modes</a></li>
-            <ul>
-              <li><a href="#ztest">Ztest</a></li>
-              <li><a href="#hypergeom">Hypergeom</a></li>
-              <li><a href="#zscore">Zscore</a></li>
-            </ul>
-          <li><a href="#Network-and-exhaustive-regimes">Network and exhaustive regimes</a></li>
-      </ul>
-  </ol>
-</details>
-
-
-
-
-
-
+<!-- START doctoc -->
+<!-- END doctoc -->
 
 
 ## Installation
@@ -35,7 +13,7 @@ TODO: put a short feature description.
 ```
 pip install dcona
 ```
-### Building from source
+### Building from source (C++ compiler is needed)
 
 ```
 git clone git@github.com:zhiyanov/DCoNA.git
@@ -44,9 +22,11 @@ pip install .
 ```
 
 ### Downloading example dataset
-You can test DCoNA on [TCGA-PRAD dataset](https://eduhseru-my.sharepoint.com/:f:/g/personal/azhiyanov_hse_ru/Eo6INCepVSBDogyS5E9q-PkBDz_n_QDKUBf9kDcqHllpBw?e=kJdTdQ)
+You can try DCoNA on [TCGA-PRAD test dataset](https://eduhseru-my.sharepoint.com/:f:/g/personal/azhiyanov_hse_ru/Eo6INCepVSBDogyS5E9q-PkBDz_n_QDKUBf9kDcqHllpBw?e=kJdTdQ)
 
 ## Usage
+
+### Available functions
 
 ### Data structure
 To run the tool you need the following data
@@ -98,7 +78,7 @@ Data description:
 
   Column names have to be exactly `Sample` and `Group`.
 
-* `interaction_path` : `interaction.csv` (optionally) contains source/target pairs: correlations will be computed among this pairs (in `network` mode). You should delete this line from the config file in `exhaustive` mode.
+* `interaction_path` : `interaction.csv` (*optionally*) contains source/target pairs: correlations will be computed among this pairs (in `network` mode). You should delete this line from the config file if you want to launch an `exhaustive` mode.
 
   Structure of `interaction.csv`:
 
