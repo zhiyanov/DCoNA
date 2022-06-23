@@ -8,16 +8,15 @@ TODO: put a short feature description.
 ## Table of Contents
 
 - [Installation](#installation)
-  - [Installation using pip (recommended)](#installation-using-pip-recommended)
-  - [Building from source (C++ compiler is needed)](#building-from-source-c-compiler-is-needed)
+  - [Installation using pip](#installation-using-pip)
   - [Downloading example dataset](#downloading-example-dataset)
 - [Usage](#usage)
+  - [Example](#example)
   - [Available functions](#available-functions)
-  - [Data structure](#data-structure)
-  - [Working modes](#working-modes)
-    - [Ztest](#ztest)
-    - [Hypergeom](#hypergeom)
-    - [Zscore](#zscore)
+    - [`dcona.ztest`](#dconaztest)
+    - [`dcona.zscore`](#dconazscore)
+    - [`dcona.hypergeom`](#dconahypergeom)
+  - [Data structure for CLI launch](#data-structure-for-cli-launch)
   - [Network and exhaustive regimes](#network-and-exhaustive-regimes)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
