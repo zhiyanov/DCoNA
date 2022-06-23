@@ -1,5 +1,5 @@
 # DCoNA: tool for fast Differential Correlation Network Analysis
-TODO: what is DCoNA and why should you use it?
+TODO: what is DCoNA and why should you use it?  
 TODO: put a short feature description.
 
 
@@ -9,34 +9,63 @@ TODO: put a short feature description.
 
 ## Installation
 
-### Installation using pip (recommended)
+### Installation using pip
 ```
 pip install dcona
 ```
-### Building from source (C++ compiler is needed)
-
-```
-git clone git@github.com:zhiyanov/DCoNA.git
-cd DCoNA
-pip install .
-```
-
 ### Downloading example dataset
 You can try DCoNA on [TCGA-PRAD test dataset](https://eduhseru-my.sharepoint.com/:f:/g/personal/azhiyanov_hse_ru/Eo6INCepVSBDogyS5E9q-PkBDz_n_QDKUBf9kDcqHllpBw?e=kJdTdQ)
 
+
+
 ## Usage
+You can use DCoNA either as Python-module or as a command-line tool.
+
+### [Example](example/example.ipynb)
+Detailed description of functions with data example and test launch.
 
 ### Available functions
+#### `dcona.ztest`
+**It tests the hypothesis on correlation equiavalence between pairs of genes**
+``` python
+dcona.ztest(data_df, description_df, reference_group, experimental_group, correlation='spearman', alternative='two-sided', interaction=None, repeats_number=None, output_dir=None, process_number=None)
+```
+* Command-line usage:
+  ``` bash
+  dcona ztest config.json
+  ```
 
-### Data structure
-To run the tool you need the following data
-* `config.json` data filenames and tool usage parameters:
+#### `dcona.zscore`
+**It aggregates correlation changes of source molecule with all its targets.**  
+``` python
+dcona.zscore(data_df, description_df, reference_group, experimental_group, correlation='spearman', score='mean', alternative='two-sided', interaction=None, repeats_number=None, output_dir=None, process_number=None)
+```
+* Command-line usage:
+  ``` bash
+  dcona zscore config.json
+  ```
+
+#### `dcona.hypergeom`
+**It groups pairs with changed correlations by the source molecules and finds overrepresented groups using the hypergeometric test.**  
+``` python
+hypergeom(ztest_df, alternative='two-sided', oriented=True, output_dir=None)
+```
+* Command-line usage:  
+  You should launch `ztest` and then `hypergeom` with the same config file.
+  ``` bash
+  dcona hypergeom config.json
+  ```
+
+### Data structure for CLI launch
+To run the tool in command line you need the following data:
+
+* [`config.json`](example/configs/config.json) containing data filenames and tool usage parameters
 ```json
 {
-	"data_path": "~/input_directory/data.csv",
-	"description_path": "~/input_directory/description.csv",
-	"interaction_path": "~/input_directory/interaction.csv",
-	"output_dir_path": "~/output_directory",
+	"data_path": "./example/data/data.csv",
+	"description_path": "./example/data/description.csv",
+	"interaction_path": "./example/data/interactions.csv",
+	"output_dir_path": "./../output/",
 	
 	"reference_group": "Normal",
 	"experimental_group": "Tumor",
@@ -44,10 +73,8 @@ To run the tool you need the following data
 	"correlation": "spearman",
 	"alternative": "two-sided",
 	"score": "mean",
-	"repeats_number": 800,
-	"process_number": 64,
-
-	"fdr_threshold": 0.05
+	"repeats_number": 500,
+	"process_number": 2
 }
 ```
 Both relative and absolute file paths can be used.
@@ -78,7 +105,7 @@ Data description:
 
   Column names have to be exactly `Sample` and `Group`.
 
-* `interaction_path` : `interaction.csv` (*optionally*) contains source/target pairs: correlations will be computed among this pairs (in `network` mode). You should delete this line from the config file if you want to launch an `exhaustive` mode.
+* `interaction_path` (*optional*): `interaction.csv` contains source/target pairs - correlations will be computed among this pairs (in `network` mode). You should delete this line from the config file if you want to launch an `exhaustive` mode.
 
   Structure of `interaction.csv`:
 
@@ -102,50 +129,11 @@ Usage parameters:
 
   TODO: describe the parameter meaning in `ztest` and `zscore` regimes.
 
-### Working modes
 
-#### Ztest
-
-TODO: description
-
-Usage:
-
-```bash
-# For network regime
-python3 ~/network/ztest.py config.json
-# For exhaustive regime
-python3 ~/exhaustive/ztest.py config.json
-```
-
-#### Hypergeom
-
-TODO: description
-
-Usage:
-
-```bash
-# For network regime
-python3 ~/network/hypergeom.py config.json
-# For exhaustive regime
-python3 ~/exhaustive/hypergeom.py config.json
-```
-
-#### Zscore
-
-TODO: description
-
-Usage:
-
-```bash
-# For network regime
-python3 ~/network/zscore.py config.json
-# For exhaustive regime
-python3 ~/exhaustive/zscore.py config.json
-```
 
 ### Network and exhaustive regimes
 
 DCoNA has two working regimes:
 
 * Network (interactions) regime - performs calculations only on given gene pairs. Requires an `interaction.csv` file.
-* Exhaustive (all vs all) regime - generates all possible gene pairs from genes listed in`data.csv` and performs calculations. An `interaction.csv` file is not needed.
+* Exhaustive (all vs all) regime - generates all possible gene pairs from genes listed in `data.csv` and performs calculations. An `interaction.csv` file is not needed.
