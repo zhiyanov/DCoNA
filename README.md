@@ -7,19 +7,17 @@ TODO: put a short feature description.
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ## Table of Contents
 
-- [DCoNA: tool for fast Differential Correlation Network Analysis](#dcona-tool-for-fast-differential-correlation-network-analysis)
-  - [Table of Contents](#table-of-contents)
-  - [Installation](#installation)
-    - [Installation using pip](#installation-using-pip)
-    - [Downloading example dataset](#downloading-example-dataset)
-  - [Usage](#usage)
-    - [Example](#example)
-    - [Available functions](#available-functions)
-      - [`dcona.ztest`](#dconaztest)
-      - [`dcona.zscore`](#dconazscore)
-      - [`dcona.hypergeom`](#dconahypergeom)
-    - [Data structure for CLI launch](#data-structure-for-cli-launch)
-    - [Network and exhaustive regimes](#network-and-exhaustive-regimes)
+- [Installation](#installation)
+  - [Installation using pip](#installation-using-pip)
+  - [Downloading example dataset](#downloading-example-dataset)
+- [Usage](#usage)
+  - [Example](#example)
+  - [Available functions](#available-functions)
+    - [`dcona.ztest`](#dconaztest)
+    - [`dcona.zscore`](#dconazscore)
+    - [`dcona.hypergeom`](#dconahypergeom)
+  - [Data structure for CLI launch](#data-structure-for-cli-launch)
+  - [Network and exhaustive regimes](#network-and-exhaustive-regimes)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
