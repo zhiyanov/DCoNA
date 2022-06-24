@@ -7,17 +7,19 @@ TODO: put a short feature description.
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ## Table of Contents
 
-- [Installation](#installation)
-  - [Installation using pip](#installation-using-pip)
-  - [Downloading example dataset](#downloading-example-dataset)
-- [Usage](#usage)
-  - [Example](#example)
-  - [Available functions](#available-functions)
-    - [`dcona.ztest`](#dconaztest)
-    - [`dcona.zscore`](#dconazscore)
-    - [`dcona.hypergeom`](#dconahypergeom)
-  - [Data structure for CLI launch](#data-structure-for-cli-launch)
-  - [Network and exhaustive regimes](#network-and-exhaustive-regimes)
+- [DCoNA: tool for fast Differential Correlation Network Analysis](#dcona-tool-for-fast-differential-correlation-network-analysis)
+  - [Table of Contents](#table-of-contents)
+  - [Installation](#installation)
+    - [Installation using pip](#installation-using-pip)
+    - [Downloading example dataset](#downloading-example-dataset)
+  - [Usage](#usage)
+    - [Example](#example)
+    - [Available functions](#available-functions)
+      - [`dcona.ztest`](#dconaztest)
+      - [`dcona.zscore`](#dconazscore)
+      - [`dcona.hypergeom`](#dconahypergeom)
+    - [Data structure for CLI launch](#data-structure-for-cli-launch)
+    - [Network and exhaustive regimes](#network-and-exhaustive-regimes)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -63,7 +65,7 @@ dcona.zscore(data_df, description_df, reference_group, experimental_group, corre
 #### `dcona.hypergeom`
 **It groups pairs with changed correlations by the source molecules and finds overrepresented groups using the hypergeometric test.**  
 ``` python
-hypergeom(ztest_df, alternative='two-sided', oriented=True, output_dir=None)
+dcona.hypergeom(ztest_df, alternative='two-sided', oriented=True, output_dir=None)
 ```
 * Command-line usage:  
   You should launch `ztest` and then `hypergeom` with the same config file.
