@@ -1,7 +1,6 @@
 # DCoNA: tool for fast Differential Correlation Network Analysis
-TODO: what is DCoNA and why should you use it?  
-TODO: put a short feature description.
-
+DCoNA is a statistical tool that allows one to identify pair interactions, which correlation significantly changes between two conditions. DCoNA was designed to test the hypothesis for a predefined list of source and target pairs ("Network" regime). However, DCoNA can also be used in the complete- network regime when the list is not given ("Exhaustive" regime). In this regime, DCoNA tests the hypothesis for all possible pairs of molecules from expression data.
+Aside from the hypothesis testing, DCoNA can be used to test that significantly altered correlations of a particular source molecule are overrepresented among all significantly changed correlations. Also, DCoNA can compute mean, median, and other quantiles of z-statistics associated with a particular molecule and its targets to determine a trend in correlation changes.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
