@@ -20,8 +20,8 @@ def check_directory_existence(
         sys.exit()
 
 def save_by_chunks(
-    indexes,
-    df_indexes, df_template, df_columns, 
+    indexes, df_indexes,
+    df_template, df_columns, 
     path_to_file,
     index_transform=None,
     chunk_length=CHUNK_LENGTH
@@ -39,15 +39,18 @@ def save_by_chunks(
         
         dump_indexes = indexes[start : end]
         
-        source_indexes = []
-        target_indexes = []
-        for ind in dump_indexes:
-            if not (index_transform is None):
-                ind = index_transform[ind]
+        if (isinstance(df_indexes, tuple)) and (len(df_indexes) == 2):
+            source_indexes, target_indexes = df_indexes
+        else:
+            source_indexes = []
+            target_indexes = []
+            for ind in dump_indexes:
+                if not (index_transform is None):
+                    ind = index_transform[ind]
 
-            s, t = cextern.paired_index(ind, len(df_indexes))
-            source_indexes.append(df_indexes[s])
-            target_indexes.append(df_indexes[t])
+                s, t = cextern.paired_index(ind, len(df_indexes))
+                source_indexes.append(df_indexes[s])
+                target_indexes.append(df_indexes[t])
         
         output_df = df_template.copy()
         output_df["Source"] = source_indexes

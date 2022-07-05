@@ -39,7 +39,7 @@ def ztest(
         if repeats_number is None:
             repeats_number = 0
     
-    sorted_indexes, indexes, df_indexes, \
+    sorted_indexes, df_indexes, \
     ref_corrs, ref_pvalues, exp_corrs, exp_pvalues, \
     stat, pvalue, adjusted_pvalue, \
     boot_pvalue = _ztest(
@@ -64,6 +64,7 @@ def ztest(
                 exp_corrs, exp_pvalues, stat,
                 pvalue, adjusted_pvalue, boot_pvalue
             ]
+
         else:
             df_template = pd.DataFrame(columns=[
                 "Source", "Target", "RefCorr", "RefPvalue", 
@@ -82,8 +83,7 @@ def ztest(
         dump.save_by_chunks(
             sorted_indexes,
             df_indexes, df_template, df_columns,
-            path_to_file,
-            index_transform=indexes
+            path_to_file
         )
         
         print(f"File saved at: {path_to_file}")
@@ -182,44 +182,21 @@ def _ztest(
         scipy.stats.rankdata(pvalue)
     adjusted_pvalue[adjusted_pvalue > 1] = 1
     adjusted_pvalue = adjusted_pvalue.flatten()
+    
+    if interaction_df is None:
+        df_indexes = data_df.index.to_numpy()
+    else:
+        df_indexes = (source_indexes, target_indexes)
 
-    indexes = np.arange(len(adjusted_pvalue))
-
-    ref_corrs = ref_corrs[indexes]
-    ref_pvalues = ref_pvalues[indexes]
-
-    exp_corrs = exp_corrs[indexes]
-    exp_pvalues = exp_pvalues[indexes]
-
-    stat = stat[indexes]
-    pvalue = pvalue[indexes]
-    boot_pvalue = boot_pvalue[indexes]
-
-    adjusted_pvalue = adjusted_pvalue[indexes]
-    df_indexes = data_df.index.to_numpy()
-
-    ref_corrs = ref_corrs[indexes]
-    ref_pvalues = ref_pvalues[indexes]
-
-    exp_corrs = exp_corrs[indexes]
-    exp_pvalues = exp_pvalues[indexes]
-
-    stat = stat[indexes]
-    pvalue = pvalue[indexes]
-    boot_pvalue = boot_pvalue[indexes]
-    adjusted_pvalue = adjusted_pvalue[indexes]
-    df_indexes = data_df.index.to_numpy()
-
-    FDR_pvalue = np.core.records.fromarrays(
+    fdr_pvalue = np.core.records.fromarrays(
         [adjusted_pvalue, pvalue],
-        names='FDR, pvalue'
+        names='fdr, pvalue'
     )
 
-    sorted_indexes = np.argsort(FDR_pvalue, order=('FDR', 'pvalue'))
-    del FDR_pvalue
+    sorted_indexes = np.argsort(fdr_pvalue, order=('fdr', 'pvalue'))
+    del fdr_pvalue
 
-    return sorted_indexes, indexes, df_indexes, \
+    return sorted_indexes, df_indexes, \
         ref_corrs, ref_pvalues, exp_corrs, exp_pvalues, \
         stat, pvalue, adjusted_pvalue, \
         boot_pvalue
-
