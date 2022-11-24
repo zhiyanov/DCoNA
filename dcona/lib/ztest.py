@@ -88,14 +88,17 @@ def ztest(
         
         print(f"File saved at: {path_to_file}")
         return None
-
+    
     source_indexes = []
     target_indexes = []
 
-    for ind in sorted_indexes:
-        s, t = extern.paired_index(ind, len(df_indexes))
-        source_indexes.append(df_indexes[s])
-        target_indexes.append(df_indexes[t])
+    if (isinstance(df_indexes, tuple)) and (len(df_indexes) == 2):
+        source_indexes, target_indexes = df_indexes
+    else:
+        for ind in sorted_indexes:
+            s, t = extern.paired_index(ind, len(df_indexes))
+            source_indexes.append(df_indexes[s])
+            target_indexes.append(df_indexes[t])
     
     if repeats_number > 0:
         output_df = pd.DataFrame(data={
