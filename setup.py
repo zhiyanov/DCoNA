@@ -14,7 +14,7 @@ with open("README.md", "r") as readme_file:
 
 requirements = ['pybind11', 'pandas', 'numpy', 'scipy', 'tqdm']
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 
 ext_modules = [
