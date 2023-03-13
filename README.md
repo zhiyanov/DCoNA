@@ -2,6 +2,12 @@
 DCoNA is a statistical tool that allows one to identify pair interactions, which correlation significantly changes between two conditions. DCoNA was designed to test the hypothesis for a predefined list of source and target pairs ("Network" regime). However, DCoNA can also be used in the complete- network regime when the list is not given ("Exhaustive" regime). In this regime, DCoNA tests the hypothesis for all possible pairs of molecules from expression data.
 Aside from the hypothesis testing, DCoNA can be used to test that significantly altered correlations of a particular source molecule are overrepresented among all significantly changed correlations. Also, DCoNA can compute mean, median, and other quantiles of z-statistics associated with a particular molecule and its targets to determine a trend in correlation changes.
 
+
+If you use DCoNA in work contributing to a scientific publication, we ask you to cite our publication:  
+
+*Anton Zhiyanov, Narek Engibaryan, Stepan Nersisyan, Maxim Shkurnikov, Alexander Tonevitsky, Differential co-expression network analysis with DCoNA reveals isomiR targeting aberrations in prostate cancer, Bioinformatics, Volume 39, Issue 2, February 2023, btad051*  
+https://doi.org/10.1093/bioinformatics/btad051
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ## Table of Contents
