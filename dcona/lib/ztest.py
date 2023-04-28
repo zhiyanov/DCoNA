@@ -102,8 +102,8 @@ def ztest(
     
     if repeats_number > 0:
         output_df = pd.DataFrame(data={
-            "Source": source_indexes,
-            "Target": target_indexes,
+            "Source": source_indexes.to_numpy()[sorted_indexes],
+            "Target": target_indexes.to_numpy()[sorted_indexes],
             "RefCorr": ref_corrs[sorted_indexes], 
             "RefPvalue": ref_pvalues[sorted_indexes], 
             "ExpCorr": exp_corrs[sorted_indexes], 
@@ -115,8 +115,8 @@ def ztest(
         })
     else:
         output_df = pd.DataFrame(data={
-            "Source": source_indexes,
-            "Target": target_indexes,
+            "Source": source_indexes.to_numpy()[sorted_indexes],
+            "Target": target_indexes.to_numpy()[sorted_indexes],
             "RefCorr": ref_corrs[sorted_indexes], 
             "RefPvalue": ref_pvalues[sorted_indexes], 
             "ExpCorr": exp_corrs[sorted_indexes], 
