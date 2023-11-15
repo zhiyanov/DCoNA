@@ -27,7 +27,7 @@ jobs:
           - [windows-latest, win_amd64]
           - [windows-latest, win32]
           
-        python: ["cp38", "cp39", "cp310", "cp311", "pp38"]
+        python: ["cp38", "cp39", "cp310", "cp311", "cp312", "pp38"]
         
         exclude:
           # Don't build PyPy 32-bit windows
@@ -46,7 +46,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.11'  # update once build dependencies are available
+          python-version: '3.12'  # update once build dependencies are available
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.16.2
