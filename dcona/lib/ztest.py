@@ -38,7 +38,7 @@ def ztest(
 
         if repeats_number is None:
             repeats_number = 0
-    
+
     sorted_indexes, df_indexes, \
     ref_corrs, ref_pvalues, exp_corrs, exp_pvalues, \
     stat, pvalue, adjusted_pvalue, \
@@ -78,7 +78,6 @@ def ztest(
                 pvalue, adjusted_pvalue
             ]
 
-
         path_to_file = output_dir.rstrip("/") + f"/{correlation}_{alternative}_ztest.csv"
         dump.save_by_chunks(
             sorted_indexes,
@@ -89,21 +88,24 @@ def ztest(
         print(f"File saved at: {path_to_file}")
         return None
     
-    source_indexes = []
-    target_indexes = []
-
     if (isinstance(df_indexes, tuple)) and (len(df_indexes) == 2):
+        # This "if" is true when user passed interaction_df
         source_indexes, target_indexes = df_indexes
+        source_indexes = np.array(source_indexes)[sorted_indexes]
+        target_indexes = np.array(target_indexes)[sorted_indexes]
     else:
+        # This "else" is true when user passed no interaction_df
+        source_indexes = []
+        target_indexes = []
         for ind in sorted_indexes:
             s, t = extern.paired_index(ind, len(df_indexes))
             source_indexes.append(df_indexes[s])
             target_indexes.append(df_indexes[t])
-    
+
     if repeats_number > 0:
         output_df = pd.DataFrame(data={
-            "Source": source_indexes.to_numpy()[sorted_indexes],
-            "Target": target_indexes.to_numpy()[sorted_indexes],
+            "Source": source_indexes,
+            "Target": target_indexes,
             "RefCorr": ref_corrs[sorted_indexes], 
             "RefPvalue": ref_pvalues[sorted_indexes], 
             "ExpCorr": exp_corrs[sorted_indexes], 
@@ -115,8 +117,8 @@ def ztest(
         })
     else:
         output_df = pd.DataFrame(data={
-            "Source": source_indexes.to_numpy()[sorted_indexes],
-            "Target": target_indexes.to_numpy()[sorted_indexes],
+            "Source": source_indexes,
+            "Target": target_indexes,
             "RefCorr": ref_corrs[sorted_indexes], 
             "RefPvalue": ref_pvalues[sorted_indexes], 
             "ExpCorr": exp_corrs[sorted_indexes], 
