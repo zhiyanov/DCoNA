@@ -80,7 +80,7 @@ setup(
     packages=find_packages(),
     install_requires=requirements,
     ext_modules=ext_modules,
-    python_requires=">=3.9",
+    python_requires=">=3.7",
     entry_points={
         'console_scripts': [
             'dcona = dcona.__main__:main',

@@ -24,9 +24,16 @@ jobs:
           - [windows-latest, win_amd64]
           - [windows-latest, win32]
           
-        python: ["cp39", "cp310", "cp311", "cp312"]
+        python: ["cp38", "cp39", "cp310", "cp311", "cp312", "pp38"]
         
         exclude:
+          # Don't build PyPy 32-bit windows
+          - buildplat: [windows-latest, win32]
+            python: "pp38"
+          - buildplat: [macos-latest, macosx_arm64]
+            python: "pp38"
+          - buildplat: [macos-latest, macosx_universal2]
+            python: "pp38"
           - buildplat: [windows-latest, win32]
             python: "cp310"
 
@@ -74,7 +81,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: wheels_artifact-*
+          pattern: wheels_artifact-*
           path: dist
           merge-multiple: true
       - uses: actions/download-artifact@v4
