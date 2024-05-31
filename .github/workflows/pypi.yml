@@ -63,7 +63,7 @@ jobs:
     name: Build source distribution
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v44
+      - uses: actions/checkout@v4
 
       - name: Build sdist
         run: pipx run build --sdist
