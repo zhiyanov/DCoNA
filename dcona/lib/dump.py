@@ -1,6 +1,7 @@
 import tqdm
 import sys
 import os
+import numpy as np
 
 from ..core import extern as cextern
 
@@ -41,6 +42,8 @@ def save_by_chunks(
         
         if (isinstance(df_indexes, tuple)) and (len(df_indexes) == 2):
             source_indexes, target_indexes = df_indexes
+            source_indexes = np.array(source_indexes)[dump_indexes]
+            target_indexes = np.array(target_indexes)[dump_indexes]
         else:
             source_indexes = []
             target_indexes = []
